@@ -1,0 +1,21 @@
+<mat-drawer #drawer class="sidenav" mode="side">
+  <div class="drawer-content">
+    <h2>Menu</h2>
+    <mat-nav-list>
+      @for (link of menuListTop; track $index) {
+      <a mat-list-item [routerLink]="link.url" routerLinkActive="active">
+        <mat-icon matListItemIcon>{{link.icon}}</mat-icon>{{link.name}}
+      </a>
+      }
+    </mat-nav-list>
+
+    <mat-nav-list class="bottom-menu">
+      <!-- <mat-divider></mat-divider> -->
+      @for (link of menuListBottom; track $index) {
+      <a mat-list-item [routerLink]="link.url" routerLinkActive="active">
+        <mat-icon matListItemIcon>{{link.icon}}</mat-icon>{{link.name}}
+      </a>
+      }
+    </mat-nav-list>
+  </div>
+</mat-drawer>
