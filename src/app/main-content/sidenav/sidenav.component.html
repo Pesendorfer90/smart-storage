@@ -3,7 +3,7 @@
     <h2>Menu</h2>
     <mat-nav-list>
       @for (link of menuListTop; track $index) {
-      <a mat-list-item [routerLink]="link.url" routerLinkActive="active">
+      <a mat-list-item [routerLink]="link.url" routerLinkActive="active" (click)="toggleDrawer()">
         <mat-icon matListItemIcon>{{link.icon}}</mat-icon>{{link.name}}
       </a>
       }
