@@ -32,6 +32,10 @@ section {
   align-items: center;
 }
 
+.active {
+  background-color: var(--mat-sys-secondary-container);
+}
+
 .scrollbar-material {
   overflow-y: auto;
 

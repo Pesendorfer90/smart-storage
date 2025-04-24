@@ -8,10 +8,22 @@ import { Inventory } from '../../models/inventory';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatDialog } from '@angular/material/dialog';
 import { LabelsDialogComponent } from './labels-dialog/labels-dialog.component';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
-  imports: [MatFormFieldModule, MatInputModule, MatIconModule, MatCardModule, MatChipsModule, MatBadgeModule],
+  imports: [MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    MatCardModule,
+    MatChipsModule,
+    MatBadgeModule,
+    MatDividerModule,
+    MatTooltipModule,
+    FormsModule,
+  ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
@@ -198,6 +210,8 @@ export class HomeComponent {
       }
     },
   ]
+
+  value: string = ''
 
   readonly dialog = inject(MatDialog);
 

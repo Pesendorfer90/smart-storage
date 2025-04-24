@@ -28,4 +28,8 @@ export class SidenavComponent {
   toggleDrawer() {
     this.drawer.toggle();
   }
+
+  closeDrawer() {
+    this.drawer.close();
+  }
 }

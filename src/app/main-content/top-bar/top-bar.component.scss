@@ -1,3 +1,12 @@
+mat-toolbar {
+  background-color: var(--mat-sys-primary-container);
+  color: var(--mat-sys-on-primary-container);
+}
+
+mat-icon {
+  color: var(--mat-sys-on-primary-container);
+}
+
 .active-link {
   padding-left: 12px;
 }

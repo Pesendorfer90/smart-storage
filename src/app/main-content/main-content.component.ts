@@ -1,9 +1,8 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, HostListener, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { SidenavComponent } from "./sidenav/sidenav.component";
 import { TopBarComponent } from "./top-bar/top-bar.component";
-import { HomeComponent } from "./home/home.component";
 import { RouterOutlet } from '@angular/router';
 
 @Component({
@@ -18,6 +17,15 @@ export class MainContentComponent {
   constructor() { }
 
   handleToggleSidenav() {
-    this.sidenav.toggleDrawer()
+    this.sidenav.toggleDrawer();
+  }
+
+  @HostListener('document:mousedown', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+    if (!target.closest('app-sidenav, app-top-bar')) {
+      console.log("click outside sidebar");
+      this.sidenav.closeDrawer();
+    }
   }
 }
