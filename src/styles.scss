@@ -9,6 +9,14 @@ html {
   ));
 }
 
+html.dark-mode {
+  color-scheme: dark;
+}
+
+html.light-mode {
+  color-scheme: light;
+}
+
 body {
   background: var(--mat-sys-surface);
   color: var(--mat-sys-on-surface);
