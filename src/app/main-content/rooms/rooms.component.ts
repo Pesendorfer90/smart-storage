@@ -23,11 +23,45 @@ export class RoomsComponent {
   rooms: Room[] = [
     {
       name: "Keller",
-      photoURL: "https://i.pinimg.com/736x/1f/3c/29/1f3c29082efae5606f59c103ee1366a6.jpg",
+      photoURL: "img/keller-lager.png",
       description: "Untergeschoss",
       furnitures: [
-        { name: "Regal1", space: ["Fach oben", "Fach mitte", "Fach unten"] },
+        { name: "Regal1", space: ["Fach 1", "Fach 2", "Fach 3", "Fach 4"] },
         { name: "Regal2", space: ["Fach 1", "Fach 2", "Fach 3", "Fach 4"] },
+        { name: "Regal3", space: ["Fach 1", "Fach 2", "Fach 3", "Fach 4"] },
+        { name: "Regal4", space: ["Fach 1", "Fach 2", "Fach 3", "Fach 4"] },
+        { name: "Regal5", space: ["Fach 1", "Fach 2", "Fach 3", "Fach 4"] },
+        { name: "Regal6", space: ["Fach 1", "Fach 2", "Fach 3", "Fach 4"] },
+        { name: "Regal7", space: ["Fach 1", "Fach 2", "Fach 3", "Fach 4"] },
+        { name: "Regal8", space: ["Fach 1", "Fach 2", "Fach 3", "Fach 4"] },
+        { name: "Regal9", space: ["Fach 1", "Fach 2", "Fach 3", "Fach 4"] },
+      ],
+    },
+    {
+      name: "Dachboden",
+      photoURL: "img/dachboden.jpg",
+      description: "2. OG",
+      furnitures: [
+        { name: "links", space: ["linke Seite", "Bauhaus Karton", "ganz unten"] },
+        { name: "rechts", space: ["rechte Seite", "Metalkiste", "Rote Dose"] },
+      ],
+    },
+    {
+      name: "Gartenhütte",
+      photoURL: "img/gartenhütte.jpg",
+      description: "Garten",
+      furnitures: [
+        { name: "Regal links", space: ["Fach oben", "Fach mitte", "Fach unten"] },
+        { name: "Regal rechts", space: ["Fach 1", "Fach 2", "Fach 3", "Fach 4"] },
+        { name: "Regal mitte", space: ["Fach oben", "Fach mitte", "Fach unten"] },
+      ],
+    },
+    {
+      name: "Vorratskammer",
+      photoURL: "img/vorratskammer.png",
+      description: "EG",
+      furnitures: [
+        { name: "Regal1", space: ["Fach 1", "Fach 2", "Fach 3", "Fach 4", "Boden"] },
       ],
     },
   ]

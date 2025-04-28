@@ -1,58 +1,19 @@
 <section>
-    @for (room of rooms; track $index) {
-    <mat-card class="item-card" appearance="outlined">
-        <mat-card-header>
-            <mat-card-title-group>
+    <div class="room-container">
+        @for (room of rooms; track $index) {
+        <mat-card class="item-card" appearance="outlined">
+            <mat-card-header>
                 <mat-card-title>{{room.name}}</mat-card-title>
-                <mat-card-subtitle>
-                    <!-- <mat-chip-set>
-                            @for (furniture of room.furnitures; track $index) {
-                            <mat-chip class="example-box" cdkDrag>{{furniture}}</mat-chip>
-                            }
-
-                            @if (furniture.labels.length >= 4) {
-                            <div [matBadge]="item.labels.length - 4" matBadgeColor="accent"
-                                matBadgePosition="above after" matBadgeSize="medium">
-                                <mat-chip class="example-box" cdkDrag (click)="openDialog(item)">...</mat-chip>
-                            </div>
-                            }
-                        </mat-chip-set> -->
-                </mat-card-subtitle>
-                <div class="item-img-container">
-                    <img mat-card-lg-image src="{{room.photoURL}}">
-                </div>
-            </mat-card-title-group>
-        </mat-card-header>
-        <mat-card-content class="description-container">
-            {{room.description}}
-        </mat-card-content>
-        <mat-divider></mat-divider>
-        <mat-card-content class="position-container">
-            @for (furniture of room.furnitures; track $index) {
-            <div matTooltip="{{furniture.space}}">{{furniture.name}}</div>
-            }
-        </mat-card-content>
-    </mat-card>
-    }
-
-    <mat-card class="item-card" appearance="outlined">
-        <mat-card-header>
-            <mat-card-title>{{this.rooms[0].name}}</mat-card-title>
-        </mat-card-header>
-        <div class="item-img-container">
-            <img mat-card-image src="{{this.rooms[0].photoURL}}" alt="Photo of a Shiba Inu">
-        </div>
-        <mat-card-content>
-            <p>
-                {{this.rooms[0].description}}
-            </p>
-        </mat-card-content>
-        <mat-card-content class="position-container">
-            @for (furniture of this.rooms[0].furnitures; track $index) {
-            <!-- <mat-chip class="example-box" cdkDrag>{{furniture}}</mat-chip> -->
-
-            <div matTooltip="{{furniture.space}}">{{furniture.name}}</div>
-            }
-        </mat-card-content>
-    </mat-card>
+            </mat-card-header>
+            <div class="item-img-container">
+                <img mat-card-image src="{{room.photoURL}}" alt="Photo of a Shiba Inu">
+            </div>
+            <mat-card-content class="position-container">
+                <p>
+                    {{room.description}}
+                </p>
+            </mat-card-content>
+        </mat-card>
+        }
+    </div>
 </section>

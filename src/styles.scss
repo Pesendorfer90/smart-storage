@@ -52,7 +52,7 @@ section {
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: var(--mat-sys-secondary);
     border-radius: 4px;
   }
 
@@ -61,5 +61,5 @@ section {
   }
 
   scrollbar-width: thin;
-  scrollbar-color: rgba(0, 0, 0, 0.3) transparent;
+  scrollbar-color: var(--mat-sys-secondary)
 }
