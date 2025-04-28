@@ -31,21 +31,93 @@ export class HomeComponent {
   items: Inventory[] = [
     {
       name: "Hammer",
-      photoURL: "https://media.rs-online.com/F2242251-01.jpg",
+      photoURL: "img/hammer.jpg",
       labels: ["Werkzeug"],
       description: "Universal einsetztbar, 250g",
       storage: {
-        room: "Abstellraum",
-        furniture: "Regal 1",
-        space: "Fach 2",
+        room: "Gartenhütte",
+        furniture: "Regal links",
+        space: "Fach oben",
         position: "links hinten",
       }
     },
     {
       name: "Bier",
-      photoURL: "https://shop.brantl.at/wp-content/uploads/2024/06/142-4212815.jpg",
+      photoURL: "img/punti.jpg",
       labels: ["Food", "Drink", "Food", "Drink", "Food", "Drink", "Food", "Drink",],
       description: "Lecker Bierchen",
+      storage: {
+        room: "Vorratskammer",
+        furniture: "Regal 1",
+        space: "Boden",
+        position: "links",
+      }
+    },
+    {
+      name: "Altes Werkzeug",
+      photoURL: "img/altes-werkzeug.jpg",
+      labels: ["Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug",],
+      description: "Zum aussortieren, entsorgung jeden Freitag am Bauhof zwischen 10 und 13 UhrZum aussortieren, entsorgung jeden Freitag am Bauhof zwischen 10 und 13 UhrZum aussortieren, entsorgung jeden Freitag am Bauhof zwischen 10 und 13 Uhr",
+      storage: {
+        room: "Keller",
+        furniture: "Regal 5",
+        space: "Fach 4",
+        position: "ganzes Fach",
+      }
+    },
+    {
+      name: "Holzschraube 3,5x16",
+      photoURL: "img/schraube-3,5x16.jpg",
+      labels: ["Werkzeug"],
+      description: "Kreuz Z2, verzinkt, 300Stk.",
+      storage: {
+        room: "Gartenhütte",
+        furniture: "Regal mitte",
+        space: "Fach 2",
+        position: "mitte",
+      }
+    },
+    {
+      name: "Holzschraube 3x25",
+      photoURL: "img/schraube-3,5x16.jpg",
+      labels: ["Werkzeug"],
+      description: "Kreuz Z1, verzinkt, 25Stk.",
+      storage: {
+        room: "Gartenhütte",
+        furniture: "Regal mitte",
+        space: "Fach 2",
+        position: "mitte",
+      }
+    },
+    {
+      name: "Rasenmäger",
+      photoURL: "img/rasenmäher.jpg",
+      labels: ["Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug",],
+      description: "Benzin, Einhell",
+      storage: {
+        room: "Gartenhütte",
+        furniture: "Regal mitte",
+        space: "Boden",
+        position: "links",
+      }
+    },
+    {
+      name: "Kompressor",
+      photoURL: "img/kompressor.jpg",
+      labels: ["Werkzeug"],
+      description: "Universal einsetztbar, 250g",
+      storage: {
+        room: "Gartenhütte",
+        furniture: "Regal mitte",
+        space: "Boden",
+        position: "rechts",
+      }
+    },
+    {
+      name: "Sauvignon Blanc",
+      photoURL: "img/sauvignon-blanc.png",
+      labels: ["Alkohol", "Drink", "Wein", "2022"],
+      description: "Weingut Familie Reichardt, Burgenland, Donnerskirchen, Jahrgang 2022",
       storage: {
         room: "Abstellraum",
         furniture: "Regal 3",
@@ -54,10 +126,10 @@ export class HomeComponent {
       }
     },
     {
-      name: "Altes Werkzeug",
-      photoURL: "https://w0.peakpx.com/wallpaper/252/393/HD-wallpaper-tje-mechanic-art-autoparts-brush-geometry-man-saints-shop-story-toolket-trumpet.jpg",
-      labels: ["Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug",],
-      description: "Zum aussortieren, entsorgung jeden Freitag am Bauhof zwischen 10 und 13 UhrZum aussortieren, entsorgung jeden Freitag am Bauhof zwischen 10 und 13 UhrZum aussortieren, entsorgung jeden Freitag am Bauhof zwischen 10 und 13 Uhr",
+      name: "Filou",
+      photoURL: "img/Filou.jpg",
+      labels: ["Alkohol", "Drink", "Wein", "2022"],
+      description: "Weingut Familie Reichardt, Burgenland, Donnerskirchen, Jahrgang 2022",
       storage: {
         room: "Abstellraum",
         furniture: "Regal 5",
@@ -66,147 +138,87 @@ export class HomeComponent {
       }
     },
     {
-      name: "Hammer",
-      photoURL: "https://media.rs-online.com/F2242251-01.jpg",
-      labels: ["Werkzeug"],
-      description: "Universal einsetztbar, 250g",
+      name: "Akkuschrauber",
+      photoURL: "img/einhell-akkuschrauber.jpg",
+      labels: ["Werkzeug", "Einhell"],
+      description: "Einhell, Garantie bis 02.2026",
       storage: {
-        room: "Abstellraum",
-        furniture: "Regal 1",
+        room: "Keller",
+        furniture: "Regal 6",
         space: "Fach 2",
-        position: "links hinten",
-      }
-    },
-    {
-      name: "Bier",
-      photoURL: "https://shop.brantl.at/wp-content/uploads/2024/06/142-4212815.jpg",
-      labels: ["Food", "Drink", "Food", "Drink", "Food", "Drink", "Food", "Drink",],
-      description: "Lecker Bierchen",
-      storage: {
-        room: "Abstellraum",
-        furniture: "Regal 3",
-        space: "Fach 1",
         position: "rechts",
       }
     },
     {
-      name: "Altes Werkzeug",
-      photoURL: "https://w0.peakpx.com/wallpaper/252/393/HD-wallpaper-tje-mechanic-art-autoparts-brush-geometry-man-saints-shop-story-toolket-trumpet.jpg",
-      labels: ["Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug",],
-      description: "Zum aussortieren, entsorgung jeden Freitag am Bauhof zwischen 10 und 13 UhrZum aussortieren, entsorgung jeden Freitag am Bauhof zwischen 10 und 13 UhrZum aussortieren, entsorgung jeden Freitag am Bauhof zwischen 10 und 13 Uhr",
+      name: "Werkzeug Akku 4ah",
+      photoURL: "img/einhell-akku-4ah.jpg",
+      labels: ["Akku", "Einhell", "Werkzeug"],
+      description: "6 Stk, Garantie bsi 02.2026",
       storage: {
-        room: "Abstellraum",
-        furniture: "Regal 5",
-        space: "Fach 4",
-        position: "ganzes Fach",
-      }
-    },
-    {
-      name: "Hammer",
-      photoURL: "https://media.rs-online.com/F2242251-01.jpg",
-      labels: ["Werkzeug"],
-      description: "Universal einsetztbar, 250g",
-      storage: {
-        room: "Abstellraum",
-        furniture: "Regal 1",
+        room: "Keller",
+        furniture: "Regal 6",
         space: "Fach 2",
-        position: "links hinten",
+        position: "rechts vorne",
       }
     },
     {
-      name: "Bier",
-      photoURL: "https://shop.brantl.at/wp-content/uploads/2024/06/142-4212815.jpg",
-      labels: ["Food", "Drink", "Food", "Drink", "Food", "Drink", "Food", "Drink",],
-      description: "Lecker Bierchen",
+      name: "Werkzeug Akku 4ah",
+      photoURL: "img/einhell_akku_2_5_ah.jpg",
+      labels: ["Akku", "Einhell", "Werkzeug"],
+      description: "2 Stk, Garantie bsi 02.2026",
       storage: {
-        room: "Abstellraum",
-        furniture: "Regal 3",
-        space: "Fach 1",
-        position: "rechts",
-      }
-    },
-    {
-      name: "Altes Werkzeug",
-      photoURL: "https://w0.peakpx.com/wallpaper/252/393/HD-wallpaper-tje-mechanic-art-autoparts-brush-geometry-man-saints-shop-story-toolket-trumpet.jpg",
-      labels: ["Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug",],
-      description: "Zum aussortieren, entsorgung jeden Freitag am Bauhof zwischen 10 und 13 UhrZum aussortieren, entsorgung jeden Freitag am Bauhof zwischen 10 und 13 UhrZum aussortieren, entsorgung jeden Freitag am Bauhof zwischen 10 und 13 Uhr",
-      storage: {
-        room: "Abstellraum",
-        furniture: "Regal 5",
-        space: "Fach 4",
-        position: "ganzes Fach",
-      }
-    },
-    {
-      name: "Hammer",
-      photoURL: "https://media.rs-online.com/F2242251-01.jpg",
-      labels: ["Werkzeug"],
-      description: "Universal einsetztbar, 250g",
-      storage: {
-        room: "Abstellraum",
-        furniture: "Regal 1",
+        room: "Keller",
+        furniture: "Regal 6",
         space: "Fach 2",
-        position: "links hinten",
+        position: "rechts vorne",
       }
     },
     {
-      name: "Bier",
-      photoURL: "https://shop.brantl.at/wp-content/uploads/2024/06/142-4212815.jpg",
-      labels: ["Food", "Drink", "Food", "Drink", "Food", "Drink", "Food", "Drink",],
-      description: "Lecker Bierchen",
+      name: "Gewindeschneider und Gewindebohrer",
+      photoURL: "img/genwindeschneideset.jpg",
+      labels: ["Werkzeug", "Gewinde", "Gewindebohrer", "Wendeisen"],
+      description: "Gewindeschneider und Bohrer. Gewindebohrerhalter: M3-M12. Gewindebohrerhalter: M6-M18. M2 x 0,4, M3 x 0,5, M4 x 0,7, M5 x 0,8, M6 x 0,75, M6 x 1, M7 x 0,75, M7 x 1, M8 x 0,75, M8 x 1, M8 x 1,25, M9 x 0,75, M9 x M9 x 1,25, M10 x 0,75, M10 x 1, M10 x 1,25, M10 x 1,5, M11 x 0,75, M11 x 1, M11 x 1,25, M11 x 1,5, M12 x 0,75, M12 x 1, M12 x 1,25, M12 x 1,5, M12 x 1,75, M14 x 1, M14 x 1,25, M14 x 1,5, M14 x 2, M16 x 1, M16 x 1,5, M16 x 2, M18 x 1,5.",
       storage: {
-        room: "Abstellraum",
-        furniture: "Regal 3",
-        space: "Fach 1",
-        position: "rechts",
-      }
-    },
-    {
-      name: "Altes Werkzeug",
-      photoURL: "https://w0.peakpx.com/wallpaper/252/393/HD-wallpaper-tje-mechanic-art-autoparts-brush-geometry-man-saints-shop-story-toolket-trumpet.jpg",
-      labels: ["Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug",],
-      description: "Zum aussortieren, entsorgung jeden Freitag am Bauhof zwischen 10 und 13 UhrZum aussortieren, entsorgung jeden Freitag am Bauhof zwischen 10 und 13 UhrZum aussortieren, entsorgung jeden Freitag am Bauhof zwischen 10 und 13 Uhr",
-      storage: {
-        room: "Abstellraum",
+        room: "Keller",
         furniture: "Regal 5",
-        space: "Fach 4",
-        position: "ganzes Fach",
-      }
-    },
-    {
-      name: "Hammer",
-      photoURL: "https://media.rs-online.com/F2242251-01.jpg",
-      labels: ["Werkzeug"],
-      description: "Universal einsetztbar, 250g",
-      storage: {
-        room: "Abstellraum",
-        furniture: "Regal 1",
-        space: "Fach 2",
-        position: "links hinten",
-      }
-    },
-    {
-      name: "Bier",
-      photoURL: "https://shop.brantl.at/wp-content/uploads/2024/06/142-4212815.jpg",
-      labels: ["Food", "Drink", "Food", "Drink", "Food", "Drink", "Food", "Drink",],
-      description: "Lecker Bierchen",
-      storage: {
-        room: "Abstellraum",
-        furniture: "Regal 3",
         space: "Fach 1",
-        position: "rechts",
+        position: "mitte",
       }
     },
     {
-      name: "Altes Werkzeug",
-      photoURL: "https://w0.peakpx.com/wallpaper/252/393/HD-wallpaper-tje-mechanic-art-autoparts-brush-geometry-man-saints-shop-story-toolket-trumpet.jpg",
-      labels: ["Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug",],
-      description: "Zum aussortieren, entsorgung jeden Freitag am Bauhof zwischen 10 und 13 UhrZum aussortieren, entsorgung jeden Freitag am Bauhof zwischen 10 und 13 UhrZum aussortieren, entsorgung jeden Freitag am Bauhof zwischen 10 und 13 Uhr",
+      name: "Stromkabel 3x1.5mm²",
+      photoURL: "img/stromkabel-3x1.5mm2.png",
+      labels: ["Strom", "Elektrik", "Kabel"],
+      description: "20m, Litzenkabel, Feuchtraumgeeignet, H03VV-F",
       storage: {
-        room: "Abstellraum",
-        furniture: "Regal 5",
+        room: "Keller",
+        furniture: "Regal 2",
         space: "Fach 4",
-        position: "ganzes Fach",
+        position: "Orangene Kiste",
+      }
+    },
+    {
+      name: "Stoßstange BMW M",
+      photoURL: "img/bmw-1er-e87-mpaket-stoßstange.jpg",
+      labels: ["Auto", "Autoteile", "Karosserie", "BMW", "E87"],
+      description: "M-Stoßstange vom alten 1er E87er BMW, an der Lippe gebrochen",
+      storage: {
+        room: "Dachboden",
+        furniture: "links",
+        space: "linke Seite",
+        position: "hinten",
+      }
+    },
+    {
+      name: "LG Ultragear Verpackung",
+      photoURL: "img/lg-verpackung.jpg",
+      labels: ["Verpackung", "Karton", "LG", "Ultragear"],
+      description: "5x Originalkarton vom Bildschirm LG UltraGear 27GP850P-B, 27 zoll, Standfuß ist im Karton, nicht wegschmeißen!!",
+      storage: {
+        room: "Dachboden",
+        furniture: "rechts",
+        space: "linke Seite",
+        position: "bei den Kartons",
       }
     },
   ]

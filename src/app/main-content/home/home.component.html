@@ -18,12 +18,12 @@
                     <mat-card-title>{{item.name}}</mat-card-title>
                     <mat-card-subtitle>
                         <mat-chip-set>
-                            @for (label of item.labels.slice(0, 4); track $index) {
+                            @for (label of item.labels.slice(0, 3); track $index) {
                             <mat-chip class="example-box" cdkDrag>{{label}}</mat-chip>
                             }
 
-                            @if (item.labels.length >= 4) {
-                            <div [matBadge]="item.labels.length - 4" matBadgeColor="accent"
+                            @if (item.labels.length >= 3) {
+                            <div [matBadge]="item.labels.length - 3" matBadgeColor="accent"
                                 matBadgePosition="above after" matBadgeSize="medium">
                                 <mat-chip class="example-box" cdkDrag (click)="openDialog(item)">...</mat-chip>
                             </div>
