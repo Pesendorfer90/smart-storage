@@ -11,10 +11,20 @@ html {
 
 html.dark-mode {
   color-scheme: dark;
+  @include mat.theme((
+    color: mat.$cyan-palette,
+    typography: Roboto,
+    density: 0
+  ));
 }
 
 html.light-mode {
   color-scheme: light;
+  @include mat.theme((
+    color: mat.$blue-palette,
+    typography: Roboto,
+    density: 0
+  ));
 }
 
 body {

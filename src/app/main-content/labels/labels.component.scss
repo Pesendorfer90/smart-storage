@@ -1,0 +1,15 @@
+section {
+    padding: 16px;
+    box-sizing: border-box;
+}
+
+.example-form-field {
+    width: 100%;
+}
+
+mat-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 16px;
+}

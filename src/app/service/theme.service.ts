@@ -5,8 +5,8 @@ import { inject, Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class ThemeService {
+  userDarkMode: boolean;
   darkMode: boolean = true;
-  userDarkMode: boolean = true;
   themeMode: string = 'light_mode';
   private readonly document = inject(DOCUMENT)
 

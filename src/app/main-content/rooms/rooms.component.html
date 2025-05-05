@@ -4,6 +4,25 @@
         <mat-card class="item-card" appearance="outlined">
             <mat-card-header>
                 <mat-card-title>{{room.name}}</mat-card-title>
+
+                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Room Menu">
+                        <mat-icon>more_vert</mat-icon>
+                    </button>
+                    <mat-menu #menu="matMenu" xPosition="before">
+                        <button mat-menu-item>
+                            <mat-icon>edit</mat-icon>
+                            <span>Edit</span>
+                        </button>
+                        <button mat-menu-item>
+                            <mat-icon>content_copy</mat-icon>
+                            <span>Create Copy</span>
+                        </button>
+                        <button mat-menu-item>
+                            <mat-icon>delete</mat-icon>
+                            <span>Delete</span>
+                        </button>
+                    </mat-menu>
+
             </mat-card-header>
             <div class="item-img-container">
                 <img mat-card-image src="{{room.photoURL}}" alt="Photo of a Shiba Inu">

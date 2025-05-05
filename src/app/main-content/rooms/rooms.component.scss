@@ -14,8 +14,10 @@
 }
 
 mat-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 12px;
-    height: 32px;
 }
 
 .item-img-container {

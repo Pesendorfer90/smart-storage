@@ -5,6 +5,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-rooms',
@@ -14,6 +16,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatChipsModule,
     MatDividerModule,
     MatTooltipModule,
+    MatMenuModule,
+    MatButtonModule
   ],
   templateUrl: './rooms.component.html',
   styleUrl: './rooms.component.scss'
@@ -35,7 +39,7 @@ export class RoomsComponent {
         { name: "Regal 7", space: ["Fach 1", "Fach 2", "Fach 3", "Fach 4"] },
         { name: "Regal 8", space: ["Fach 1", "Fach 2", "Fach 3", "Fach 4"] },
         { name: "Regal 9", space: ["Fach 1", "Fach 2", "Fach 3", "Fach 4"] },
-      ], 
+      ],
     },
     {
       name: "Dachboden",
@@ -43,7 +47,7 @@ export class RoomsComponent {
       description: "2. OG",
       furnitures: [
         { name: "links", space: ["linke Seite", "Bauhaus Karton", "ganz unten"] },
-        { name: "rechts", space: ["rechte Seite", "Metalkiste", "Rote Dose"] },
+        { name: "rechts", space: ["rechte Seite", "Metalkiste", "linke Seite"] },
       ],
     },
     {
