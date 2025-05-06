@@ -1,0 +1,96 @@
+<div class="add-item-container">
+    <mat-stepper class="stepper" [orientation]="(stepperOrientation | async)!">
+        <mat-step [stepControl]="firstFormGroup" label="Name">
+            <form [formGroup]="firstFormGroup">
+                <mat-form-field>
+                    <mat-label>Item Name</mat-label>
+                    <input matInput placeholder="" formControlName="firstCtrl" required>
+                </mat-form-field>
+                <div>
+                    <button mat-button matStepperNext>Next</button>
+                </div>
+            </form>
+        </mat-step>
+
+        <mat-step [stepControl]="secondFormGroup" label="Description">
+            <form [formGroup]="secondFormGroup">
+                <mat-form-field>
+                    <mat-label>Item description</mat-label>
+                    <input matInput formControlName="secondCtrl" placeholder="" required>
+                </mat-form-field>
+                <div>
+                    <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button matStepperNext>Next</button>
+                </div>
+            </form>
+        </mat-step>
+
+        <mat-step [stepControl]="thirdFormGroup" label="Location">
+            <!-- <form [formGroup]="thirdFormGroup"> -->
+            <!-- <mat-form-field> -->
+            <mat-accordion>
+                @for (room of this.firestoreService.rooms$ | async; track room.id) {
+                <mat-expansion-panel [disabled]="false">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>{{room.name}}</mat-panel-title>
+                    </mat-expansion-panel-header>
+                    @for (furniture of room.furnitures; track $index) {
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>{{furniture.furnitureName}}</mat-panel-title>
+                        </mat-expansion-panel-header>
+
+
+                        <mat-button-toggle-group appearance="legacy" name="fontStyle" aria-label="Font Style">
+                            @for (space of furniture.space;; track $index) {
+                                <!-- RESPONSIV MACHEN -->
+                            <mat-button-toggle value="{{space}}">{{space}}</mat-button-toggle>
+
+                            }
+                        </mat-button-toggle-group>
+                    </mat-expansion-panel>
+                    }
+                </mat-expansion-panel>
+                }
+            </mat-accordion>
+            <!-- </mat-form-field> -->
+            <div>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-button matStepperNext>Next</button>
+            </div>
+            <!-- </form> -->
+        </mat-step>
+
+        <mat-step [stepControl]="thirdFormGroup" label="Labels">
+            <!-- <form [formGroup]="thirdFormGroup"> -->
+            <!-- <mat-form-field> -->
+            <mat-chip-set aria-label="Fish selection">
+                <mat-chip-set>
+                    @for (label of this.firestoreService.labels$ | async; track label.id) {
+                    <mat-chip>{{ label.name }}</mat-chip>
+                    }
+                </mat-chip-set>
+            </mat-chip-set>
+            <!-- </mat-form-field> -->
+            <div>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-button matStepperNext>Next</button>
+            </div>
+            <!-- </form> -->
+        </mat-step>
+
+        <mat-step [stepControl]="thirdFormGroup" label="Img">
+            <form [formGroup]="thirdFormGroup">
+                <mat-form-field>
+                    <mat-label>Upload Img</mat-label>
+                    <input matInput formControlName="thirdCtrl" placeholder="Ex. 12345678" required>
+                </mat-form-field>
+                <div>
+                    <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button matStepperNext>Save</button>
+                </div>
+            </form>
+        </mat-step>
+
+    </mat-stepper>
+</div>

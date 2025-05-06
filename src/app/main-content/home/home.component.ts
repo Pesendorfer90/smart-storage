@@ -11,6 +11,8 @@ import { LabelsDialogComponent } from './labels-dialog/labels-dialog.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { AddItemComponent } from './add-item/add-item.component';
 
 @Component({
   selector: 'app-home',
@@ -23,6 +25,7 @@ import { FormsModule } from '@angular/forms';
     MatDividerModule,
     MatTooltipModule,
     FormsModule,
+    MatButtonModule,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
@@ -56,7 +59,7 @@ export class HomeComponent {
     {
       name: "Altes Werkzeug",
       photoURL: "img/altes-werkzeug.jpg",
-      labels: ["Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug",],
+      labels: ["Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug", "Werkzeug"],
       description: "Zum aussortieren, entsorgung jeden Freitag am Bauhof zwischen 10 und 13 UhrZum aussortieren, entsorgung jeden Freitag am Bauhof zwischen 10 und 13 UhrZum aussortieren, entsorgung jeden Freitag am Bauhof zwischen 10 und 13 Uhr",
       storage: {
         room: "Keller",
@@ -227,10 +230,17 @@ export class HomeComponent {
 
   readonly dialog = inject(MatDialog);
 
-  openDialog(lables: Inventory) {
+  openLabelDialog(lables: Inventory) {
     this.dialog.open(LabelsDialogComponent, {
       data: lables,
       width: '200px',
+    });
+  }
+
+  openAddItem() {
+    this.dialog.open(AddItemComponent, {
+      maxWidth: '1800px',
+      width: '80%'
     });
   }
 }

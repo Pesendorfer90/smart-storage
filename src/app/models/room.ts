@@ -1,11 +1,12 @@
 export interface Room {
         name: string;
         photoURL: string;
-        description: string;    
+        description: string;
         furnitures: Space[];
+        id: string;
 }
 
 export interface Space {
-    name: string;
-    space: string[];
-  }
+        furnitureName: string;
+        space: string[];
+}
