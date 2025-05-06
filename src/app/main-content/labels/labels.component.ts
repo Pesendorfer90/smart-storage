@@ -25,7 +25,7 @@ import { Labels } from '../../models/labels';
   styleUrl: './labels.component.scss'
 })
 export class LablesComponent {
-  readonly labels = signal<Labels[]>([{name: 'angular'}, {name: 'how-to'}, {name: 'tutorial'}, {name: 'accessibility'}, {name: "Drink"}, {name: "Food"}, {name: "Werkzeug"}, {name: "Alkohol"}, {name: "Wein"}, {name: "2022"}]);
+  readonly labels = signal<Labels[]>([{name: 'angular', id: 'asd54g45g'}, {name: 'how-to', id: 'dfgh9kjm6785'}, {name: 'tutorial', id: '51gf6'}, {name: 'accessibility', id: 'dfg564564gf'}, {name: "Drink", id: '347gzu5ufg'}, {name: "Food", id: 'mpkmxcs45'}, {name: "Werkzeug", id: 'odxgwkl5'}, {name: "Alkohol", id: 'mxölwkjt56'}, {name: "Wein", id: 'odvcnmsl5'}, {name: "2022", id: 'fm549308rhe'}]);
 
   edit: boolean = false;
 
@@ -48,7 +48,7 @@ export class LablesComponent {
     const value = (event.value || '').trim();
 
     if (value) {
-      this.labels.update(keywords => [...keywords, {name: value}]);
+      this.labels.update(keywords => [...keywords, {name: value, id:''}]);
     }
 
     event.chipInput!.clear();
