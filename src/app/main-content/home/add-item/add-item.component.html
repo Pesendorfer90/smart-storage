@@ -1,24 +1,26 @@
 <div class="add-item-container">
     <mat-stepper class="stepper" [orientation]="(stepperOrientation | async)!">
         <mat-step [stepControl]="firstFormGroup" label="Name">
-            <form [formGroup]="firstFormGroup">
+            <form class="flex-c-c-c" [formGroup]="firstFormGroup">
                 <mat-form-field>
                     <mat-label>Item Name</mat-label>
                     <input matInput placeholder="" formControlName="firstCtrl" required>
                 </mat-form-field>
-                <div>
+                <div class="flex-end">
                     <button mat-button matStepperNext>Next</button>
                 </div>
             </form>
         </mat-step>
 
         <mat-step [stepControl]="secondFormGroup" label="Description">
-            <form [formGroup]="secondFormGroup">
+            <form class="flex-c-c-c" [formGroup]="secondFormGroup">
                 <mat-form-field>
                     <mat-label>Item description</mat-label>
-                    <input matInput formControlName="secondCtrl" placeholder="" required>
+                    <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="3"
+                        cdkAutosizeMaxRows="5"></textarea>
+                    <!-- <input matInput formControlName="secondCtrl" placeholder="" required> -->
                 </mat-form-field>
-                <div>
+                <div class="flex-end">
                     <button mat-button matStepperPrevious>Back</button>
                     <button mat-button matStepperNext>Next</button>
                 </div>
@@ -26,66 +28,91 @@
         </mat-step>
 
         <mat-step [stepControl]="thirdFormGroup" label="Location">
-            <!-- <form [formGroup]="thirdFormGroup"> -->
-            <!-- <mat-form-field> -->
-            <mat-accordion>
-                @for (room of this.firestoreService.rooms$ | async; track room.id) {
-                <mat-expansion-panel [disabled]="false">
-                    <mat-expansion-panel-header>
-                        <mat-panel-title>{{room.name}}</mat-panel-title>
-                    </mat-expansion-panel-header>
-                    @for (furniture of room.furnitures; track $index) {
-                    <mat-expansion-panel>
-                        <mat-expansion-panel-header>
-                            <mat-panel-title>{{furniture.furnitureName}}</mat-panel-title>
-                        </mat-expansion-panel-header>
-
-
-                        <mat-button-toggle-group appearance="legacy" name="fontStyle" aria-label="Font Style">
-                            @for (space of furniture.space;; track $index) {
-                                <!-- RESPONSIV MACHEN -->
-                            <mat-button-toggle value="{{space}}">{{space}}</mat-button-toggle>
-
+            <form class="flex-c-c-c" [formGroup]="thirdFormGroup">
+                <div class="location-container scrollbar-material">
+                    <mat-accordion>
+                        @for (room of this.firestoreService.rooms$ | async; track room.id) {
+                        <mat-expansion-panel [disabled]="false">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>{{room.name}}</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            @for (furniture of room.furnitures; track $index) {
+                            <mat-expansion-panel>
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>{{furniture.furnitureName}}</mat-panel-title>
+                                </mat-expansion-panel-header>
+                                <mat-selection-list name="shoes" [multiple]="false">
+                                    @for (space of furniture.space;; track $index) {
+                                    <mat-list-option
+                                        (click)="selectedStorageLocation(space.spaceId)">{{space.name}}</mat-list-option>
+                                    }
+                                </mat-selection-list>
+                            </mat-expansion-panel>
                             }
-                        </mat-button-toggle-group>
-                    </mat-expansion-panel>
+                        </mat-expansion-panel>
+                        }
+                    </mat-accordion>
+                    @if (showLocation) {
+                    <mat-card-content class="position-container">
+                        <div matTooltip="{{location?.roomName}}">{{location?.roomName}}</div>
+                        <mat-icon fontIcon="arrow_forward_ios"></mat-icon>
+                        <div matTooltip="{{location?.furnitureName}}">{{location?.furnitureName}}</div>
+                        <mat-icon fontIcon="arrow_forward_ios"></mat-icon>
+                        <div matTooltip="{{location?.spaceName}}">{{location?.spaceName}}</div>
+                        <mat-icon fontIcon="arrow_forward_ios"></mat-icon>
+                        <mat-form-field class="position-input-container">
+                            <mat-label>Exact position</mat-label>
+                            <input matInput placeholder="" formControlName="thirdCtrl" required>
+                        </mat-form-field>
+                    </mat-card-content>
                     }
-                </mat-expansion-panel>
-                }
-            </mat-accordion>
-            <!-- </mat-form-field> -->
-            <div>
-                <button mat-button matStepperPrevious>Back</button>
-                <button mat-button matStepperNext>Next</button>
-            </div>
-            <!-- </form> -->
+                </div>
+                <div class="flex-end">
+                    <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button matStepperNext>Next</button>
+                </div>
+            </form>
         </mat-step>
 
-        <mat-step [stepControl]="thirdFormGroup" label="Labels">
-            <!-- <form [formGroup]="thirdFormGroup"> -->
-            <!-- <mat-form-field> -->
-            <mat-chip-set aria-label="Fish selection">
-                <mat-chip-set>
-                    @for (label of this.firestoreService.labels$ | async; track label.id) {
-                    <mat-chip>{{ label.name }}</mat-chip>
-                    }
-                </mat-chip-set>
-            </mat-chip-set>
-            <!-- </mat-form-field> -->
-            <div>
-                <button mat-button matStepperPrevious>Back</button>
-                <button mat-button matStepperNext>Next</button>
-            </div>
-            <!-- </form> -->
+        <mat-step [stepControl]="fourthFormGroup" label="Labels">
+            <form class="flex-c-c-c" [formGroup]="fourthFormGroup">
+                <!-- <mat-form-field> -->
+                <mat-card style="padding: 16px 24px;" appearance="outlined">
+                    <mat-chip-set aria-label="Fish selection">
+                        <mat-chip-set>
+                            @for (label of this.firestoreService.labels$ | async; track label.id) {
+                            <mat-chip-option (click)="addetLabel(label.id)">{{ label.name }}</mat-chip-option>
+                            }
+                        </mat-chip-set>
+                    </mat-chip-set>
+                </mat-card>
+                <!-- </mat-form-field> -->
+                <div class="flex-end">
+                    <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button matStepperNext>Next</button>
+                </div>
+            </form>
         </mat-step>
 
-        <mat-step [stepControl]="thirdFormGroup" label="Img">
-            <form [formGroup]="thirdFormGroup">
-                <mat-form-field>
-                    <mat-label>Upload Img</mat-label>
-                    <input matInput formControlName="thirdCtrl" placeholder="Ex. 12345678" required>
-                </mat-form-field>
-                <div>
+        <mat-step [stepControl]="fifththFormGroup" label="Img">
+            <form class="flex-c-c-c" [formGroup]="fifththFormGroup">
+                <mat-card appearance="outlined">
+                    <mat-card-content class="flex-c-c">
+                        @if (imagePreview) {
+                        <img [src]="imagePreview" alt="Vorschau" style="max-width: 300px; max-height: 300px;">
+                        } @else {
+                        <button mat-fab (click)="fileInput.click()">
+                            <input type="file" #fileInput (change)="onFileSelected($event)" accept="image/*" hidden>
+                            <mat-icon>add</mat-icon>
+                        </button>
+                        }
+                    </mat-card-content>
+                    <mat-card-content style="padding-top: 16px;">
+                        <button mat-stroked-button (click)="saveItem()" [disabled]="!imagePreview"><mat-icon
+                                fontIcon="cloud_upload"></mat-icon>Upload</button>
+                    </mat-card-content>
+                </mat-card>
+                <div class="flex-end">
                     <button mat-button matStepperPrevious>Back</button>
                     <button mat-button matStepperNext>Save</button>
                 </div>

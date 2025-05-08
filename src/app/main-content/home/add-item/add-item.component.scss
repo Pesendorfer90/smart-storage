@@ -1,13 +1,78 @@
 .add-item-container {
-    width: 100%;
-    padding: 16px;
-    box-sizing: border-box;
+  width: 100%;
+  padding: 16px;
+  box-sizing: border-box;
 }
 
 .stepper {
-    margin-top: 8px;
+  margin-top: 8px;
+}
+
+.mat-mdc-form-field {
+  margin-top: 16px;
+}
+
+.flex-end {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+mat-form-field {
+  max-width: 275px;
+  width: 100%;
+}
+
+.location-container {
+  max-height: 400px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 1px;
+  overflow: auto;
+}
+
+.position-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px;
+  margin-top: 8px;
+  background-color: var(--mat-sys-secondary-container);
+  border-radius: 8px;
+
+  div {
+    width: calc(((366px - (22px * 4)) / 4));
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
-  
-  .mat-mdc-form-field {
-    margin-top: 16px;
+
+  mat-icon {
+    font-size: 1rem;
+    width: 16px;
+    height: 16px;
   }
+}
+
+@media (max-width: 799px) {
+  .position-container {
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    padding: 16px 0 0;
+    gap: 16px;
+    text-align: center;
+
+    div {
+      width: 90%;
+    }
+
+    mat-icon {
+      transform: rotate(90deg);
+    }
+  }
+
+  .position-input-container {
+    margin: 0;
+  }
+}

@@ -3,12 +3,7 @@ export interface Inventory {
     photoURL: string;
     labels: string[];
     description: string;
-    storage: StorageLocation;
-}
-
-export interface StorageLocation {
-    room: string;
-    furniture: string;
-    space: string;
+    spaceId: string;
     position: string;
-  }
+    id: string;
+}

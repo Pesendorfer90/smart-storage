@@ -21,7 +21,7 @@ html.dark-mode {
 html.light-mode {
   color-scheme: light;
   @include mat.theme((
-    color: mat.$blue-palette,
+    color: mat.$azure-palette,
     typography: Roboto,
     density: 0
   ));
@@ -73,3 +73,21 @@ section {
   scrollbar-width: thin;
   scrollbar-color: var(--mat-sys-secondary)
 }
+
+.flex-c-c {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-c-c-c {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.mat-vertical-content{
+  padding: 16px 0 0 16px !important;
+}
+
