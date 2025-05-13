@@ -1,5 +1,5 @@
 import { Component, inject, QueryList, ViewChildren } from '@angular/core';
-import { FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, Validators, FormsModule, ReactiveFormsModule, FormArray, FormControl } from '@angular/forms';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { StepperOrientation, MatStepperModule } from '@angular/material/stepper';
 import { Observable } from 'rxjs';
@@ -17,6 +17,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { SearchService } from '../../../service/search.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { CloudService } from '../../../service/cloud.service';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { ImageCropperComponent, ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
 
 @Component({
   selector: 'app-add-item',
@@ -34,22 +37,28 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatIconModule,
     MatCardModule,
     MatListModule,
-    MatTooltipModule
+    MatTooltipModule,
+    ImageCropperComponent
   ],
   templateUrl: './add-item.component.html',
   styleUrl: './add-item.component.scss'
 })
 export class AddItemComponent {
   private _formBuilder = inject(FormBuilder);
-  imagePreview: string | ArrayBuffer | null = null;
+
+  imageChangedEvent: Event | null = null;
+  croppedImage: SafeUrl = '';
+  croppedImageBlob: Blob | null = null; // für Upload
+
   showLocation: boolean = false;
   location: { roomName: string; furnitureName: string; spaceName: string } | null = null;
   selectedLabels: string[] = [];
+  showCropper: boolean = false;
 
   @ViewChildren(MatExpansionPanel) panels!: QueryList<MatExpansionPanel>;
 
   firstFormGroup = this._formBuilder.group({
-    firstCtrl: ['', Validators.required],
+    firstCtrl: ['', [Validators.required]],
   });
   secondFormGroup = this._formBuilder.group({
     secondCtrl: ['', Validators.required],
@@ -58,7 +67,7 @@ export class AddItemComponent {
     thirdCtrl: ['', Validators.required],
   });
   fourthFormGroup = this._formBuilder.group({
-    fourthCtrl: ['', Validators.required],
+    labels: this._formBuilder.array([], Validators.required),
   });
   fifththFormGroup = this._formBuilder.group({
     fifthhCtrl: ['', Validators.required],
@@ -69,7 +78,9 @@ export class AddItemComponent {
 
   constructor(
     public firestoreService: FirestoreService,
-    private searchService: SearchService
+    private searchService: SearchService,
+    private cloudService: CloudService,
+    private sanitizer: DomSanitizer
   ) {
     const breakpointObserver = inject(BreakpointObserver);
 
@@ -88,31 +99,51 @@ export class AddItemComponent {
     this.panels.forEach(panel => panel.close());
   }
 
-  addetLabel(id: string) {
-    if (this.selectedLabels.includes(id)) {
-      const index = this.selectedLabels.indexOf(id);
-      this.selectedLabels.splice(index, 1)
+  get labels(): FormArray {
+    return this.fourthFormGroup.get('labels') as FormArray;
+  }
+
+  toggleLabel(id: string) {
+    const index = this.labels.controls.findIndex(ctrl => ctrl.value === id);
+    if (index >= 0) {
+      this.labels.removeAt(index);
     } else {
-      this.selectedLabels.push(id);
+      this.labels.push(new FormControl(id));
     }
   }
 
   saveItem() {
-    console.log('Hi!');
-    
+    if (!this.croppedImageBlob) return;
+    const customFileName = `profilbild-${Date.now()}.png`;
+    const file = new File([this.croppedImageBlob], customFileName, {
+      type: 'image/png',
+    });
+    this.cloudService.uploadFile(file)
+      .then(() => console.log('Upload erfolgreich'))
+      .catch(err => console.error('Upload fehlgeschlagen', err));
   }
 
-  onFileSelected(event: Event): void {
-    const fileInput = event.target as HTMLInputElement;
-    if (fileInput.files && fileInput.files.length > 0) {
-      const file = fileInput.files[0];
-
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.imagePreview = reader.result;
-      };
-      reader.readAsDataURL(file);
-    }
+  fileChangeEvent(event: Event): void {
+    this.imageChangedEvent = event;
+    this.showCropper = true;
   }
 
+  imageCropped(event: ImageCroppedEvent) {
+    this.croppedImage = this.sanitizer.bypassSecurityTrustUrl(event.objectUrl!);
+    this.croppedImageBlob = event.blob ?? null;
+    console.log(this.croppedImage);
+
+  }
+
+  loadImageFailed() {
+    // show message
+  }
+
+  closeCropper() {
+    this.showCropper = false;
+  }
+
+  removeImg() {
+    this.croppedImage = '';
+  }
 }

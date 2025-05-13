@@ -7,7 +7,7 @@
                     <input matInput placeholder="" formControlName="firstCtrl" required>
                 </mat-form-field>
                 <div class="flex-end">
-                    <button mat-button matStepperNext>Next</button>
+                    <button mat-button matStepperNext [disabled]="!firstFormGroup.valid">Next</button>
                 </div>
             </form>
         </mat-step>
@@ -16,13 +16,12 @@
             <form class="flex-c-c-c" [formGroup]="secondFormGroup">
                 <mat-form-field>
                     <mat-label>Item description</mat-label>
-                    <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="3"
+                    <textarea matInput cdkTextareaAutosize formControlName="secondCtrl" cdkAutosizeMinRows="3"
                         cdkAutosizeMaxRows="5"></textarea>
-                    <!-- <input matInput formControlName="secondCtrl" placeholder="" required> -->
                 </mat-form-field>
                 <div class="flex-end">
                     <button mat-button matStepperPrevious>Back</button>
-                    <button mat-button matStepperNext>Next</button>
+                    <button mat-button matStepperNext [disabled]="!secondFormGroup.valid">Next</button>
                 </div>
             </form>
         </mat-step>
@@ -69,55 +68,66 @@
                 </div>
                 <div class="flex-end">
                     <button mat-button matStepperPrevious>Back</button>
-                    <button mat-button matStepperNext>Next</button>
+                    <button mat-button matStepperNext [disabled]="!thirdFormGroup.valid">Next</button>
                 </div>
             </form>
         </mat-step>
 
         <mat-step [stepControl]="fourthFormGroup" label="Labels">
-            <form class="flex-c-c-c" [formGroup]="fourthFormGroup">
-                <!-- <mat-form-field> -->
-                <mat-card style="padding: 16px 24px;" appearance="outlined">
-                    <mat-chip-set aria-label="Fish selection">
-                        <mat-chip-set>
-                            @for (label of this.firestoreService.labels$ | async; track label.id) {
-                            <mat-chip-option (click)="addetLabel(label.id)">{{ label.name }}</mat-chip-option>
-                            }
-                        </mat-chip-set>
+            <mat-card style="padding: 16px 24px;" appearance="outlined">
+                <mat-chip-set aria-label="Fish selection">
+                    <mat-chip-set>
+                        @for (label of this.firestoreService.labels$ | async; track label.id) {
+                        <mat-chip-option (click)="toggleLabel(label.id)">{{ label.name }}</mat-chip-option>
+                        }
                     </mat-chip-set>
-                </mat-card>
-                <!-- </mat-form-field> -->
-                <div class="flex-end">
-                    <button mat-button matStepperPrevious>Back</button>
-                    <button mat-button matStepperNext>Next</button>
-                </div>
-            </form>
+                </mat-chip-set>
+            </mat-card>
+            <div class="flex-end">
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-button matStepperNext>Next</button>
+            </div>
         </mat-step>
 
         <mat-step [stepControl]="fifththFormGroup" label="Img">
             <form class="flex-c-c-c" [formGroup]="fifththFormGroup">
                 <mat-card appearance="outlined">
                     <mat-card-content class="flex-c-c">
-                        @if (imagePreview) {
-                        <img [src]="imagePreview" alt="Vorschau" style="max-width: 300px; max-height: 300px;">
+                        <!-- @if (imagePreview) { -->
+                        @if (croppedImage) {
+                        <img [src]="croppedImage" alt="Vorschau" style="max-width: 300px; max-height: 300px;">
                         } @else {
                         <button mat-fab (click)="fileInput.click()">
-                            <input type="file" #fileInput (change)="onFileSelected($event)" accept="image/*" hidden>
+                            <input type="file" #fileInput (change)="fileChangeEvent($event)" accept="image/*" hidden>
                             <mat-icon>add</mat-icon>
                         </button>
                         }
                     </mat-card-content>
-                    <mat-card-content style="padding-top: 16px;">
-                        <button mat-stroked-button (click)="saveItem()" [disabled]="!imagePreview"><mat-icon
-                                fontIcon="cloud_upload"></mat-icon>Upload</button>
+                    <mat-card-content class="btn-container-imgpreview">
+                        <!-- (click)="saveItem()" -->
+                        <button mat-stroked-button [disabled]="!croppedImage" (click)="removeImg()"><mat-icon
+                                fontIcon="cancel"></mat-icon>Cancle</button>
                     </mat-card-content>
                 </mat-card>
                 <div class="flex-end">
                     <button mat-button matStepperPrevious>Back</button>
-                    <button mat-button matStepperNext>Save</button>
+                    <button mat-button matStepperNext (click)="saveItem()">Save</button>
                 </div>
             </form>
         </mat-step>
-
     </mat-stepper>
 </div>
+@if (showCropper) {
+<div class="img-cropper-container flex-c-c-c">
+    <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="1 / 1"
+        format="png" (imageCropped)="imageCropped($event)" (loadImageFailed)="loadImageFailed()"></image-cropper>
+    <div class="cropper-buttons">
+        <button mat-fab aria-label="Example icon button with a delete icon">
+            <mat-icon>delete</mat-icon>
+        </button>
+        <button (click)="closeCropper()" mat-fab aria-label="Example icon button with a delete icon">
+            <mat-icon>check</mat-icon>
+        </button>
+    </div>
+</div>
+}

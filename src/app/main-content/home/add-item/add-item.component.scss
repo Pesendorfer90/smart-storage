@@ -54,6 +54,28 @@ mat-form-field {
   }
 }
 
+.btn-container-imgpreview {
+  padding-top: 16px;
+  margin-left: auto;
+}
+
+.img-cropper-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  z-index: 999;
+  max-height: 90%;
+  max-width: 90%;
+}
+
+.cropper-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  padding-top: 16px;
+}
+
 @media (max-width: 799px) {
   .position-container {
     justify-content: space-between;
