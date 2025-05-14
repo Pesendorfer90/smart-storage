@@ -15,11 +15,13 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SearchService } from '../../../service/search.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CloudService } from '../../../service/cloud.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ImageCropperComponent, ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-add-item',
@@ -38,7 +40,8 @@ import { ImageCropperComponent, ImageCroppedEvent, LoadedImage } from 'ngx-image
     MatCardModule,
     MatListModule,
     MatTooltipModule,
-    ImageCropperComponent
+    ImageCropperComponent,
+    MatProgressSpinnerModule,
   ],
   templateUrl: './add-item.component.html',
   styleUrl: './add-item.component.scss'
@@ -52,8 +55,9 @@ export class AddItemComponent {
 
   showLocation: boolean = false;
   location: { roomName: string; furnitureName: string; spaceName: string } | null = null;
-  selectedLabels: string[] = [];
   showCropper: boolean = false;
+  isLoading: boolean = false;
+  // selectedLabels: string[] = [];
 
   @ViewChildren(MatExpansionPanel) panels!: QueryList<MatExpansionPanel>;
 
@@ -67,12 +71,11 @@ export class AddItemComponent {
     thirdCtrl: ['', Validators.required],
   });
   fourthFormGroup = this._formBuilder.group({
-    labels: this._formBuilder.array([], Validators.required),
+    labels: this._formBuilder.array([]),
   });
   fifththFormGroup = this._formBuilder.group({
     fifthhCtrl: ['', Validators.required],
   });
-
 
   stepperOrientation: Observable<StepperOrientation>;
 
@@ -80,7 +83,8 @@ export class AddItemComponent {
     public firestoreService: FirestoreService,
     private searchService: SearchService,
     private cloudService: CloudService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private dialogRef: MatDialogRef<AddItemComponent>
   ) {
     const breakpointObserver = inject(BreakpointObserver);
 
@@ -90,7 +94,7 @@ export class AddItemComponent {
   }
 
   selectedStorageLocation(id: any) {
-    this.location = this.searchService.getStorageLocation(id);
+    this.location = id;
     this.closeAllPanels();
     this.showLocation = true;
   }
@@ -110,17 +114,6 @@ export class AddItemComponent {
     } else {
       this.labels.push(new FormControl(id));
     }
-  }
-
-  saveItem() {
-    if (!this.croppedImageBlob) return;
-    const customFileName = `profilbild-${Date.now()}.png`;
-    const file = new File([this.croppedImageBlob], customFileName, {
-      type: 'image/png',
-    });
-    this.cloudService.uploadFile(file)
-      .then(() => console.log('Upload erfolgreich'))
-      .catch(err => console.error('Upload fehlgeschlagen', err));
   }
 
   fileChangeEvent(event: Event): void {
@@ -145,5 +138,37 @@ export class AddItemComponent {
 
   removeImg() {
     this.croppedImage = '';
+  }
+
+  async saveItem() {
+    if (!this.firstFormGroup.valid || !this.secondFormGroup.valid || !this.thirdFormGroup.valid || !this.croppedImageBlob) {
+      console.warn('Nicht alle Felder sind gültig oder kein Bild vorhanden.');
+      return;
+    }
+
+    this.isLoading = true;
+
+    try {
+      const file = new File([this.croppedImageBlob], `temp.png`, { type: 'image/png' });
+
+      const itemData = {
+        name: this.firstFormGroup.value.firstCtrl,
+        description: this.secondFormGroup.value.secondCtrl,
+        position: this.thirdFormGroup.value.thirdCtrl,
+        spaceId: this.location,
+        labels: this.labels.value,
+        photoURL: '',
+      };
+
+      const docRef = await this.firestoreService.addItem(itemData);
+      const downloadUrl = await this.cloudService.uploadItemImage(file, docRef.id);
+      await this.firestoreService.updateItemImage(docRef.id, downloadUrl);
+      this.dialogRef.close();
+      console.log('Item erfolgreich gespeichert!');
+    } catch (error) {
+      console.error('Fehler beim Speichern des Items mit Bild:', error);
+    } finally {
+      this.isLoading = false;
+    }
   }
 }

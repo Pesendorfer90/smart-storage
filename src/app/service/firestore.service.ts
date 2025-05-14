@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { collection, collectionData, Firestore } from '@angular/fire/firestore';
+import { addDoc, collection, collectionData, doc, Firestore, updateDoc } from '@angular/fire/firestore';
 import { map, Observable } from 'rxjs';
 import { Inventory } from '../models/inventory';
 import { Labels } from '../models/labels';
@@ -33,5 +33,15 @@ export class FirestoreService {
   updateData() {
     console.log('Hello World');
     
+  }
+
+  addItem(data: any) {
+    const itemsRef = collection(this.firestore, 'items');
+    return addDoc(itemsRef, data);
+  }
+
+  updateItemImage(docId: string, photoURL: string) {
+    const itemDoc = doc(this.firestore, 'items', docId);
+    return updateDoc(itemDoc, { photoURL });
   }
 }

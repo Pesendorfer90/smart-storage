@@ -1,5 +1,5 @@
 <div class="add-item-container">
-    <mat-stepper class="stepper" [orientation]="(stepperOrientation | async)!">
+    <mat-stepper class="stepper" [orientation]="(stepperOrientation | async)!" [linear]="true">
         <mat-step [stepControl]="firstFormGroup" label="Name">
             <form class="flex-c-c-c" [formGroup]="firstFormGroup">
                 <mat-form-field>
@@ -93,7 +93,6 @@
             <form class="flex-c-c-c" [formGroup]="fifththFormGroup">
                 <mat-card appearance="outlined">
                     <mat-card-content class="flex-c-c">
-                        <!-- @if (imagePreview) { -->
                         @if (croppedImage) {
                         <img [src]="croppedImage" alt="Vorschau" style="max-width: 300px; max-height: 300px;">
                         } @else {
@@ -104,7 +103,6 @@
                         }
                     </mat-card-content>
                     <mat-card-content class="btn-container-imgpreview">
-                        <!-- (click)="saveItem()" -->
                         <button mat-stroked-button [disabled]="!croppedImage" (click)="removeImg()"><mat-icon
                                 fontIcon="cancel"></mat-icon>Cancle</button>
                     </mat-card-content>
@@ -129,5 +127,10 @@
             <mat-icon>check</mat-icon>
         </button>
     </div>
+</div>
+}
+@if (isLoading) {
+<div class="overlay-spinner flex-c-c">
+    <mat-spinner diameter="60"></mat-spinner>
 </div>
 }
