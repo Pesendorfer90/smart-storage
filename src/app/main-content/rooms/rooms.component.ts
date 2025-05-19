@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Room } from '../../models/room';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
@@ -7,6 +7,10 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
+import { FirestoreService } from '../../service/firestore.service';
+import { AsyncPipe } from '@angular/common';
+import { MatDialog } from '@angular/material/dialog';
+import { AddRoomComponent } from './add-room/add-room.component';
 
 @Component({
   selector: 'app-rooms',
@@ -17,12 +21,15 @@ import { MatButtonModule } from '@angular/material/button';
     MatDividerModule,
     MatTooltipModule,
     MatMenuModule,
-    MatButtonModule
+    MatButtonModule,
+    AsyncPipe
   ],
   templateUrl: './rooms.component.html',
   styleUrl: './rooms.component.scss'
 })
 export class RoomsComponent {
+
+  readonly dialog = inject(MatDialog);
 
   // rooms: Room[] = [
   //   {
@@ -70,5 +77,14 @@ export class RoomsComponent {
   //   },
   // ]
 
+  constructor(
+    public firestoreService: FirestoreService,
+  ) { }
 
+  openAddRoom() {
+        this.dialog.open(AddRoomComponent, {
+          maxWidth: '880px',
+          width: '90%'
+        });
+  }
 }

@@ -15,7 +15,6 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { AddItemComponent } from './add-item/add-item.component';
 import { FirestoreService } from '../../service/firestore.service';
-import { tap } from 'rxjs';
 import { Room } from '../../models/room';
 import { Labels } from '../../models/labels';
 import { SearchService } from '../../service/search.service';
@@ -259,8 +258,6 @@ export class HomeComponent {
   }
 
   openAddItem() {
-    console.log(this.roomsSnapshot);
-
     this.dialog.open(AddItemComponent, {
       maxWidth: '880px',
       width: '90%'

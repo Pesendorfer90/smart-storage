@@ -25,7 +25,8 @@ export class SearchService {
           found = {
             roomName: room.name,
             furnitureName: furniture.furnitureName,
-            spaceName: space.name
+            spaceName: space.name,
+            id: id,
           };
           break;
         }

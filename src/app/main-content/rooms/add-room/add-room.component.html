@@ -1,0 +1,141 @@
+<div class="add-item-container">
+    <mat-stepper class="stepper" [orientation]="(stepperOrientation | async)!" [linear]="true"
+        (selectionChange)="onStepChange($event)">
+        <mat-step [stepControl]="firstFormGroup" label="Name">
+            <form class="flex-c-c-c pad-top-24" [formGroup]="firstFormGroup">
+                <mat-form-field class="mat-form-field-width">
+                    <mat-label>Room Name</mat-label>
+                    <input matInput placeholder="" formControlName="firstCtrl" required>
+                </mat-form-field>
+                <div class="flex-end">
+                    <button mat-button matStepperNext [disabled]="!firstFormGroup.valid">Next</button>
+                </div>
+            </form>
+        </mat-step>
+
+        <mat-step [stepControl]="secondFormGroup" label="Location">
+            <form class="flex-c-c-c pad-top-24" [formGroup]="secondFormGroup">
+                <mat-form-field class="mat-form-field-width">
+                    <mat-label>Room location</mat-label>
+                    <input matInput cdkTextareaAutosize formControlName="secondCtrl" required>
+                </mat-form-field>
+                <div class="flex-end">
+                    <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button matStepperNext [disabled]="!secondFormGroup.valid">Next</button>
+                </div>
+            </form>
+        </mat-step>
+
+        <mat-step [stepControl]="thirdFormGroup" label="Furnitures">
+            <form class="flex-c-c-c pad-top-24" [formGroup]="thirdFormGroup">
+                <div class="location-container scrollbar-material flex-c-c-c">
+                    <div class="furniture-list flex-c-c-c">
+                        @for (furniture of thirdFormGroup.value.furnitures; track $index) {
+                        <div class="flex-sb-c">
+                            <span>{{ furniture }}</span>
+                            <button mat-icon-button (click)="deleteFurnitures(furniture)">
+                                <mat-icon fontIcon="close"></mat-icon>
+                            </button>
+                        </div>
+                        }
+                    </div>
+                    <div class="flex-c-c" style="width: 100%;">
+                        <mat-form-field class="mat-form-field-width">
+                            <mat-label>Furnitures Name</mat-label>
+                            <input matInput #furnitureInput
+                                (keydown.enter)="preventEnter($event, furnitureInput.value, 0, true); furnitureInput.value=''">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="flex-end">
+                    <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button matStepperNext [disabled]="!thirdFormGroup.valid">Next</button>
+                </div>
+            </form>
+        </mat-step>
+
+        <mat-step [stepControl]="fourthFormGroup" label="Space">
+            <form class="flex-c-c-c pad-top-24" [formGroup]="fourthFormGroup">
+                <div class="location-container scrollbar-material flex-c-c-c">
+                    <mat-accordion>
+                        @for (furniture of thirdFormGroup.value.furnitures; let furnitureIndex = $index; track $index) {
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>{{ furniture }}</mat-panel-title>
+                            </mat-expansion-panel-header>
+
+                            <mat-selection-list name="spaces" [multiple]="false" class="space-list">
+                                @for (spaceName of fourthFormGroup.value.spaces?.[$index] ?? []; track spaceName) {
+                                <div class="flex-sb-c">
+                                    <span>{{ spaceName }}</span>
+                                    <button mat-icon-button (click)="deleteSpace(spaceName, furnitureIndex)">
+                                        <mat-icon fontIcon="close"></mat-icon>
+                                    </button>
+                                </div>
+                                }
+                                <div class="flex-c-c">
+                                    <mat-form-field class="mat-form-field-width">
+                                        <mat-label>Space Name</mat-label>
+                                        <input matInput #spaceInput
+                                            (keydown.enter)="preventEnter($event, spaceInput.value, $index, false); spaceInput.value=''"
+                                            placeholder="">
+                                    </mat-form-field>
+                                </div>
+                            </mat-selection-list>
+                        </mat-expansion-panel>
+                        }
+                    </mat-accordion>
+                </div>
+                <div class="flex-end">
+                    <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button matStepperNext [disabled]="!fourthFormGroup.valid">Next</button>
+                </div>
+            </form>
+        </mat-step>
+
+        <mat-step [stepControl]="fifththFormGroup" label="Img">
+            <form class="flex-c-c-c pad-top-24" [formGroup]="fifththFormGroup">
+                <mat-card appearance="outlined">
+                    <mat-card-content class="flex-c-c">
+                        @if (croppedImage) {
+                        <img [src]="croppedImage" alt="Vorschau" style="max-width: 300px; max-height: 300px;">
+                        } @else {
+                        <button mat-fab (click)="fileInput.click()">
+                            <input type="file" #fileInput (change)="fileChangeEvent($event)" accept="image/*" hidden>
+                            <mat-icon>add</mat-icon>
+                        </button>
+                        }
+                    </mat-card-content>
+                    <mat-card-content class="btn-container-imgpreview">
+                        <button mat-stroked-button [disabled]="!croppedImage" (click)="removeImg()"><mat-icon
+                                fontIcon="cancel"></mat-icon>Cancle</button>
+                    </mat-card-content>
+                </mat-card>
+                <div class="flex-end">
+                    <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button matStepperNext (click)="saveItem()">Save</button>
+                </div>
+            </form>
+        </mat-step>
+    </mat-stepper>
+</div>
+@if (showCropper) {
+<div class="img-cropper-overlay flex-c-c-c">
+    <image-cropper class="img-cropper-container" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+        [aspectRatio]="1 / 1" [containWithinAspectRatio]="true" format="png" (imageCropped)="imageCropped($event)"
+        (loadImageFailed)="loadImageFailed()"></image-cropper>
+    <div class="cropper-buttons">
+        <button (click)="removeImg(); closeCropper()" mat-fab aria-label="Example icon button with a delete icon">
+            <mat-icon>delete</mat-icon>
+        </button>
+        <button (click)="closeCropper()" mat-fab aria-label="Example icon button with a delete icon">
+            <mat-icon>check</mat-icon>
+        </button>
+    </div>
+</div>
+}
+@if (isLoading) {
+<div class="overlay-spinner flex-c-c">
+    <mat-spinner diameter="60"></mat-spinner>
+</div>
+}

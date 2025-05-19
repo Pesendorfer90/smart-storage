@@ -24,24 +24,14 @@ export class FirestoreService {
     const userProfileCollection = collection(this.firestore, collectionName);
     return collectionData(userProfileCollection, { idField: 'id' }) as Observable<(T & { id: string })[]>;
   }
-  
-  addData() {
-    console.log('Hello World');
-    
-  }
 
-  updateData() {
-    console.log('Hello World');
-    
-  }
-
-  addItem(data: any) {
-    const itemsRef = collection(this.firestore, 'items');
+  addData(data: any, collectionName: string) {
+    const itemsRef = collection(this.firestore, collectionName);
     return addDoc(itemsRef, data);
   }
 
-  updateItemImage(docId: string, photoURL: string) {
-    const itemDoc = doc(this.firestore, 'items', docId);
+  updateImage(docId: string, photoURL: string, collectionName: string) {
+    const itemDoc = doc(this.firestore, collectionName, docId);
     return updateDoc(itemDoc, { photoURL });
   }
 }

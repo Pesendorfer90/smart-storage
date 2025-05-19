@@ -1,27 +1,26 @@
-<!-- <section>
+<section>
     <div class="room-container">
-        @for (room of rooms; track $index) {
+        @for (room of this.firestoreService.rooms$ | async; track room.id) {
         <mat-card class="item-card" appearance="outlined">
             <mat-card-header>
                 <mat-card-title>{{room.name}}</mat-card-title>
-
-                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Room Menu">
-                        <mat-icon>more_vert</mat-icon>
+                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Room Menu">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu" xPosition="before">
+                    <button mat-menu-item>
+                        <mat-icon>edit</mat-icon>
+                        <span>Edit</span>
                     </button>
-                    <mat-menu #menu="matMenu" xPosition="before">
-                        <button mat-menu-item>
-                            <mat-icon>edit</mat-icon>
-                            <span>Edit</span>
-                        </button>
-                        <button mat-menu-item>
-                            <mat-icon>content_copy</mat-icon>
-                            <span>Create Copy</span>
-                        </button>
-                        <button mat-menu-item>
-                            <mat-icon>delete</mat-icon>
-                            <span>Delete</span>
-                        </button>
-                    </mat-menu>
+                    <button mat-menu-item>
+                        <mat-icon>content_copy</mat-icon>
+                        <span>Create Copy</span>
+                    </button>
+                    <button mat-menu-item>
+                        <mat-icon>delete</mat-icon>
+                        <span>Delete</span>
+                    </button>
+                </mat-menu>
 
             </mat-card-header>
             <div class="item-img-container">
@@ -35,4 +34,9 @@
         </mat-card>
         }
     </div>
-</section> -->
+    <div class="float-add-button">
+        <button mat-fab aria-label="Example icon button with a delete icon" (click)="openAddRoom()">
+            <mat-icon>add</mat-icon>
+        </button>
+    </div>
+</section>

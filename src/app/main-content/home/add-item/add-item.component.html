@@ -2,7 +2,7 @@
     <mat-stepper class="stepper" [orientation]="(stepperOrientation | async)!" [linear]="true">
         <mat-step [stepControl]="firstFormGroup" label="Name">
             <form class="flex-c-c-c" [formGroup]="firstFormGroup">
-                <mat-form-field>
+                <mat-form-field class="mat-form-field-width">
                     <mat-label>Item Name</mat-label>
                     <input matInput placeholder="" formControlName="firstCtrl" required>
                 </mat-form-field>
@@ -14,7 +14,7 @@
 
         <mat-step [stepControl]="secondFormGroup" label="Description">
             <form class="flex-c-c-c" [formGroup]="secondFormGroup">
-                <mat-form-field>
+                <mat-form-field class="mat-form-field-width">
                     <mat-label>Item description</mat-label>
                     <textarea matInput cdkTextareaAutosize formControlName="secondCtrl" cdkAutosizeMinRows="3"
                         cdkAutosizeMaxRows="5"></textarea>
@@ -116,11 +116,12 @@
     </mat-stepper>
 </div>
 @if (showCropper) {
-<div class="img-cropper-container flex-c-c-c">
+<div class="img-cropper-overlay flex-c-c-c">
     <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="1 / 1"
-        format="png" (imageCropped)="imageCropped($event)" (loadImageFailed)="loadImageFailed()"></image-cropper>
+        [containWithinAspectRatio]="true" format="png" (imageCropped)="imageCropped($event)"
+        (loadImageFailed)="loadImageFailed()"></image-cropper>
     <div class="cropper-buttons">
-        <button mat-fab aria-label="Example icon button with a delete icon">
+        <button (click)="removeImg(); closeCropper()" mat-fab aria-label="Example icon button with a delete icon">
             <mat-icon>delete</mat-icon>
         </button>
         <button (click)="closeCropper()" mat-fab aria-label="Example icon button with a delete icon">

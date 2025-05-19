@@ -20,7 +20,7 @@ import { SearchService } from '../../../service/search.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CloudService } from '../../../service/cloud.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { ImageCropperComponent, ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
+import { ImageCropperComponent, ImageCroppedEvent } from 'ngx-image-cropper';
 import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
@@ -51,13 +51,12 @@ export class AddItemComponent {
 
   imageChangedEvent: Event | null = null;
   croppedImage: SafeUrl = '';
-  croppedImageBlob: Blob | null = null; // für Upload
+  croppedImageBlob: Blob | null = null;
 
   showLocation: boolean = false;
-  location: { roomName: string; furnitureName: string; spaceName: string } | null = null;
+  location: { roomName: string; furnitureName: string; spaceName: string; id: string } | null = null;
   showCropper: boolean = false;
   isLoading: boolean = false;
-  // selectedLabels: string[] = [];
 
   @ViewChildren(MatExpansionPanel) panels!: QueryList<MatExpansionPanel>;
 
@@ -93,8 +92,8 @@ export class AddItemComponent {
       .pipe(map(({ matches }) => (matches ? 'horizontal' : 'vertical')));
   }
 
-  selectedStorageLocation(id: any) {
-    this.location = id;
+  selectedStorageLocation(id: string) {
+    this.location = this.searchService.getStorageLocation(id)
     this.closeAllPanels();
     this.showLocation = true;
   }
@@ -155,14 +154,14 @@ export class AddItemComponent {
         name: this.firstFormGroup.value.firstCtrl,
         description: this.secondFormGroup.value.secondCtrl,
         position: this.thirdFormGroup.value.thirdCtrl,
-        spaceId: this.location,
+        spaceId: this.location!.id,
         labels: this.labels.value,
         photoURL: '',
       };
 
-      const docRef = await this.firestoreService.addItem(itemData);
-      const downloadUrl = await this.cloudService.uploadItemImage(file, docRef.id);
-      await this.firestoreService.updateItemImage(docRef.id, downloadUrl);
+      const docRef = await this.firestoreService.addData(itemData, 'items');
+      const downloadUrl = await this.cloudService.uploadImage(file, docRef.id, 'items');
+      await this.firestoreService.updateImage(docRef.id, downloadUrl, 'items');
       this.dialogRef.close();
       console.log('Item erfolgreich gespeichert!');
     } catch (error) {

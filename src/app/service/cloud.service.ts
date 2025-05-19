@@ -7,13 +7,8 @@ import { getDownloadURL, ref, Storage, uploadBytes, uploadBytesResumable } from 
 export class CloudService {
   private readonly storage: Storage = inject(Storage);
 
-  // uploadFile(file: File) {
-  //   const storageRef = ref(this.storage, file.name);
-  //   return uploadBytesResumable(storageRef, file);
-  // }
-
-  async uploadItemImage(file: File, id: string): Promise<string> {
-    const path = `items/${id}.png`;
+  async uploadImage(file: File, id: string, collectionPath: string): Promise<string> {
+    const path = `${collectionPath}/${id}.png`;
     const fileRef = ref(this.storage, path);
 
     await uploadBytes(fileRef, file);

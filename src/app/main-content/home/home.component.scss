@@ -10,10 +10,9 @@
 
 .search-results {
     display: flex;
-    flex-direction: row;
     flex-flow: row wrap;
     overflow: auto;
-    height: calc(100vh - 166px);
+    max-height: calc(100vh - 166px);
     padding: 0 16px 16px;
     box-sizing: border-box;
 }
@@ -97,10 +96,4 @@ mat-divider {
         width: 16px;
         height: 16px;
     }
-}
-
-.float-add-button {
-    position: fixed;
-    bottom: 20px;
-    right: 30px;
 }

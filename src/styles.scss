@@ -2,29 +2,23 @@
 
 html {
   color-scheme: light dark;
-  @include mat.theme((
-    color: mat.$cyan-palette,
-    typography: Roboto,
-    density: 0
-  ));
+  @include mat.theme((color: mat.$cyan-palette,
+      typography: Roboto,
+      density: 0));
 }
 
 html.dark-mode {
   color-scheme: dark;
-  @include mat.theme((
-    color: mat.$cyan-palette,
-    typography: Roboto,
-    density: 0
-  ));
+  @include mat.theme((color: mat.$cyan-palette,
+      typography: Roboto,
+      density: 0));
 }
 
 html.light-mode {
   color-scheme: light;
-  @include mat.theme((
-    color: mat.$azure-palette,
-    typography: Roboto,
-    density: 0
-  ));
+  @include mat.theme((color: mat.$azure-palette,
+      typography: Roboto,
+      density: 0));
 }
 
 body {
@@ -87,7 +81,93 @@ section {
   flex-direction: column;
 }
 
-.mat-vertical-content{
+.flex-sb-c {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.pad-top-24 {
+  padding-top: 24px;
+}
+
+// Add Overlay Items & Rooms
+
+.mat-vertical-content {
   padding: 16px 0 0 16px !important;
 }
 
+.float-add-button {
+  position: fixed;
+  bottom: 20px;
+  right: 30px;
+}
+
+.add-item-container {
+  width: 100%;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.stepper {
+  margin-top: 8px;
+}
+
+.flex-end {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.mat-form-field-width {
+  max-width: 275px;
+  width: 100%;
+}
+
+.location-container {
+  max-height: 400px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 1px;
+  overflow: auto;
+}
+
+.btn-container-imgpreview {
+  padding-top: 16px !important;
+  margin-left: auto !important;
+}
+
+.img-cropper-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  height: 100vh;
+  width: 100vw;
+  background-color: var(--mat-sys-surface);
+  gap: 24px;
+}
+
+.img-cropper-container {
+  max-width: 85% !important;
+  max-height: 85% !important;
+  margin-top: 24px;
+}
+
+.cropper-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  padding-bottom: 24px;
+}
+
+.overlay-spinner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.438);
+}
