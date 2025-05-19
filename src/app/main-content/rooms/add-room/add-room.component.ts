@@ -45,7 +45,7 @@ export class AddRoomComponent {
   private _formBuilder = inject(FormBuilder);
 
   imageChangedEvent: Event | null = null;
-  croppedImage: SafeUrl = 'img/placeholder.png"';
+  croppedImage: SafeUrl = '';
   croppedImageBlob: Blob | null = null;
 
   showCropper: boolean = false;
@@ -162,7 +162,7 @@ export class AddRoomComponent {
   }
 
   async saveItem() {
-    if (!this.firstFormGroup.valid || !this.secondFormGroup.valid || !this.thirdFormGroup.valid || !this.croppedImageBlob) {
+    if (!this.firstFormGroup.valid || !this.secondFormGroup.valid || !this.thirdFormGroup.valid) {
       console.warn('Nicht alle Felder sind gültig oder kein Bild vorhanden.');
       return;
     }
@@ -170,20 +170,20 @@ export class AddRoomComponent {
     this.isLoading = true;
 
     try {
-      const file = new File([this.croppedImageBlob], `temp.png`, { type: 'image/png' });
-
       const itemData = {
         name: this.firstFormGroup.value.firstCtrl,
         description: this.secondFormGroup.value.secondCtrl,
         furnitures: this.createFurnitureObj(),
-        photoURL: '',
+        photoURL: 'img/placeholder.png',
       };
 
       const docRef = await this.firestoreService.addData(itemData, 'rooms');
-      const downloadUrl = await this.cloudService.uploadImage(file, docRef.id, 'rooms');
-      await this.firestoreService.updateImage(docRef.id, downloadUrl, 'rooms');
+      if (this.croppedImageBlob) {
+        const file = new File([this.croppedImageBlob], `temp.png`, { type: 'image/png' });
+        const downloadUrl = await this.cloudService.uploadImage(file, docRef.id, 'rooms');
+        await this.firestoreService.updateImage(docRef.id, downloadUrl, 'rooms');
+      }
       this.dialogRef.close();
-      console.log('Item erfolgreich gespeichert!');
     } catch (error) {
       console.error('Fehler beim Speichern des Items mit Bild:', error);
     } finally {

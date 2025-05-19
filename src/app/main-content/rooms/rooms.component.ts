@@ -82,9 +82,12 @@ export class RoomsComponent {
   ) { }
 
   openAddRoom() {
-        this.dialog.open(AddRoomComponent, {
-          maxWidth: '880px',
-          width: '90%'
-        });
+    const isSmallScreen = window.innerWidth <= 599;
+    this.dialog.open(AddRoomComponent, {
+      width: isSmallScreen ? '100vw' : '90%',
+      height: isSmallScreen ? '100vh' : undefined,
+      maxWidth: isSmallScreen ? '100vw' : '880px',
+      panelClass: isSmallScreen ? 'full-screen-dialog' : ''
+    });
   }
 }

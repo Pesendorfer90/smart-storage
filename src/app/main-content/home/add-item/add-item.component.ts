@@ -140,7 +140,7 @@ export class AddItemComponent {
   }
 
   async saveItem() {
-    if (!this.firstFormGroup.valid || !this.secondFormGroup.valid || !this.thirdFormGroup.valid || !this.croppedImageBlob) {
+    if (!this.firstFormGroup.valid || !this.secondFormGroup.valid || !this.thirdFormGroup.valid) {
       console.warn('Nicht alle Felder sind gültig oder kein Bild vorhanden.');
       return;
     }
@@ -148,20 +148,21 @@ export class AddItemComponent {
     this.isLoading = true;
 
     try {
-      const file = new File([this.croppedImageBlob], `temp.png`, { type: 'image/png' });
-
       const itemData = {
         name: this.firstFormGroup.value.firstCtrl,
         description: this.secondFormGroup.value.secondCtrl,
         position: this.thirdFormGroup.value.thirdCtrl,
         spaceId: this.location!.id,
         labels: this.labels.value,
-        photoURL: '',
+        photoURL: 'img/placeholder.png',
       };
 
       const docRef = await this.firestoreService.addData(itemData, 'items');
-      const downloadUrl = await this.cloudService.uploadImage(file, docRef.id, 'items');
-      await this.firestoreService.updateImage(docRef.id, downloadUrl, 'items');
+      if (this.croppedImageBlob) {
+        const file = new File([this.croppedImageBlob], `temp.png`, { type: 'image/png' });
+        const downloadUrl = await this.cloudService.uploadImage(file, docRef.id, 'items');
+        await this.firestoreService.updateImage(docRef.id, downloadUrl, 'items');
+      }
       this.dialogRef.close();
       console.log('Item erfolgreich gespeichert!');
     } catch (error) {

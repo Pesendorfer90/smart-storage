@@ -94,6 +94,13 @@ section {
 
 // Add Overlay Items & Rooms
 
+.full-screen-dialog .mat-mdc-dialog-surface {
+  border-radius: 0px;
+  padding: 0;
+  margin: 0;
+  box-shadow: none;
+}
+
 .mat-vertical-content {
   padding: 16px 0 0 16px !important;
 }
@@ -108,6 +115,7 @@ section {
   width: 100%;
   padding: 16px;
   box-sizing: border-box;
+  overflow: auto;
 }
 
 .stepper {
@@ -131,6 +139,12 @@ section {
   box-sizing: border-box;
   padding: 1px;
   overflow: auto;
+}
+
+.preview-img {
+  max-width: 300px;
+  max-height: 300px;
+  width: 100%;
 }
 
 .btn-container-imgpreview {
@@ -170,4 +184,10 @@ section {
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.438);
+}
+
+@media(max-width: 599px) {
+  .location-container {
+    max-height: unset;
+  }
 }
