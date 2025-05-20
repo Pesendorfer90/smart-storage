@@ -1,12 +1,11 @@
-<section>
-    <mat-card appearance="outlined">
-        @if (!edit) {
-            <mat-card-header>
-                <mat-card-title>All Labels</mat-card-title>
-                <button mat-icon-button [matMenuTriggerFor]="menu">
-                    <mat-icon>more_vert</mat-icon>
-                </button>
-            </mat-card-header>
+<section>@if (!edit) {
+    <mat-card appearance="outlined" class="example-form-field">
+        <mat-card-header>
+            <mat-card-title>Labels</mat-card-title>
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_vert</mat-icon>
+            </button>
+        </mat-card-header>
 
         <mat-menu #menu="matMenu" xPosition="before">
             <button mat-menu-item (click)="edit = true">
@@ -26,12 +25,12 @@
                 }
             </mat-chip-set>
         </mat-card-content>
-        }
     </mat-card>
+    }
     @if (edit) {
     <mat-form-field class="example-form-field">
         <mat-label>Item Label</mat-label>
-        <mat-chip-grid #chipGrid aria-label="Enter template form keywords">
+        <mat-chip-grid #chipGrid>
             @for (label of labels(); track label) {
             <mat-chip-row (removed)="removeLabel(label)" [editable]="true" (edited)="editLabel(label, $event)">
                 {{label.name}}
@@ -41,8 +40,10 @@
             </mat-chip-row>
             }
         </mat-chip-grid>
-        <input placeholder="New Label..." [matChipInputFor]="chipGrid" (matChipInputTokenEnd)="addLabel($event)" />
+        <input placeholder="New Label..." [matChipInputFor]="chipGrid"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addLabel($event)" />
     </mat-form-field>
+    <button class="margin-left-auto" (click)="saveLabels()" mat-button>Save</button>
     }
 
 </section>
