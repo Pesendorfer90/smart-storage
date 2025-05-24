@@ -12,7 +12,7 @@
     </div>
     <div class="search-results scrollbar-material">
         @for (item of this.firestoreService.items$ | async; track item.id) {
-        <mat-card class="item-card" appearance="outlined">
+        <mat-card class="item-card" appearance="outlined" (click)="openEditItem(item)">
             <mat-card-header>
                 <mat-card-title-group>
                     <mat-card-title>{{item.name}}</mat-card-title>
@@ -25,7 +25,7 @@
                             @if (item.labels.length >= 3) {
                             <div [matBadge]="item.labels.length - 3" matBadgeColor="accent"
                                 matBadgePosition="above after" matBadgeSize="medium">
-                                <mat-chip class="example-box" cdkDrag (click)="openLabelDialog(item)">...</mat-chip>
+                                <mat-chip class="example-box" cdkDrag>...</mat-chip>
                             </div>
                             }
                         </mat-chip-set>

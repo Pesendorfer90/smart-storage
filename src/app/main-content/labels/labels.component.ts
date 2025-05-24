@@ -10,8 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { Labels } from '../../models/labels';
 import { FirestoreService } from '../../service/firestore.service';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { collection, doc } from 'firebase/firestore';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-lables',
@@ -22,7 +21,8 @@ import { collection, doc } from 'firebase/firestore';
     MatMenuModule,
     MatIconModule,
     FormsModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatProgressSpinnerModule,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './labels.component.html',
@@ -34,6 +34,7 @@ export class LablesComponent {
   readonly announcer = inject(LiveAnnouncer);
 
   edit: boolean = false;
+  isLoading: boolean = false;
 
   constructor(private firestoreService: FirestoreService) {
     this.firestoreService.labels$.subscribe(data => {
@@ -84,11 +85,9 @@ export class LablesComponent {
   }
 
   async saveLabels() {
+    this.isLoading = true;
     this.edit = false
     await this.firestoreService.saveOrUpdateLabels(this.labels())
-
+    this.isLoading = false;
   }
-
-
-
 }

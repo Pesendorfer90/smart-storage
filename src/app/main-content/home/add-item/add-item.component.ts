@@ -86,7 +86,6 @@ export class AddItemComponent {
     private dialogRef: MatDialogRef<AddItemComponent>
   ) {
     const breakpointObserver = inject(BreakpointObserver);
-
     this.stepperOrientation = breakpointObserver
       .observe('(min-width: 800px)')
       .pipe(map(({ matches }) => (matches ? 'horizontal' : 'vertical')));

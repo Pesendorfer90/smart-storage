@@ -5,10 +5,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
-import { Inventory } from '../../models/inventory';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatDialog } from '@angular/material/dialog';
-import { LabelsDialogComponent } from './labels-dialog/labels-dialog.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { FormsModule } from '@angular/forms';
@@ -18,6 +16,8 @@ import { FirestoreService } from '../../service/firestore.service';
 import { Room } from '../../models/room';
 import { Labels } from '../../models/labels';
 import { SearchService } from '../../service/search.service';
+import { Inventory } from '../../models/inventory';
+import { EditItemComponent } from './edit-item/edit-item.component';
 
 @Component({
   selector: 'app-home',
@@ -250,19 +250,23 @@ export class HomeComponent {
     this.labelFn = this.searchService.getLabelName.bind(this.searchService);
   }
 
-  openLabelDialog(lables: Inventory) {
-    this.dialog.open(LabelsDialogComponent, {
-      data: lables,
-      width: '200px',
-    });
-  }
-
   openAddItem() {
     const isSmallScreen = window.innerWidth <= 599;
     this.dialog.open(AddItemComponent, {
       width: isSmallScreen ? '100vw' : '90%',
       height: isSmallScreen ? '100vh' : undefined,
       maxWidth: isSmallScreen ? '100vw' : '880px',
+      panelClass: isSmallScreen ? 'full-screen-dialog' : ''
+    });
+  }
+
+  openEditItem(item: Inventory) {
+    const isSmallScreen = window.innerWidth <= 599;
+    this.dialog.open(EditItemComponent, {
+      data: item,
+      width: isSmallScreen ? '100vw' : '90%',
+      height: isSmallScreen ? '100vh' : undefined,
+      maxWidth: isSmallScreen ? '100vw' : '600px',
       panelClass: isSmallScreen ? 'full-screen-dialog' : ''
     });
   }

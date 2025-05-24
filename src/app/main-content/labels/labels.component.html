@@ -45,5 +45,9 @@
     </mat-form-field>
     <button class="margin-left-auto" (click)="saveLabels()" mat-button>Save</button>
     }
-
 </section>
+@if (isLoading) {
+<div class="overlay-spinner flex-c-c">
+    <mat-spinner diameter="60"></mat-spinner>
+</div>
+}

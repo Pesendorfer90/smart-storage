@@ -68,6 +68,18 @@ section {
   scrollbar-color: var(--mat-sys-secondary)
 }
 
+.cancel-btn {
+  color: var(--mat-sys-error) !important;
+
+  &:hover {
+    background-color: rgba(var(--mat-sys-error-rgb, 255, 0, 0), 0.08);
+  }
+
+  &:active {
+    background-color: rgba(var(--mat-sys-error-rgb, 255, 0, 0), 0.16);
+  }
+}
+
 .flex-c-c {
   display: flex !important;
   justify-content: center;
@@ -92,8 +104,22 @@ section {
   padding-top: 24px;
 }
 
+.mar-top-24 {
+  margin-top: 24px;
+}
+
 .margin-left-auto {
   margin-left: auto;
+}
+
+.flex-end {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.pointer {
+  cursor: pointer;
 }
 
 // Add Overlay Items & Rooms
@@ -124,12 +150,6 @@ section {
 
 .stepper {
   margin-top: 8px;
-}
-
-.flex-end {
-  display: flex;
-  justify-content: flex-end;
-  width: 100%;
 }
 
 .mat-form-field-width {

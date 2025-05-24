@@ -1,20 +1,10 @@
 <mat-toolbar>
-  <button mat-icon-button aria-label="Example icon-button with menu icon" (click)="onMenuClick()">
+  <button mat-icon-button (click)="onMenuClick()">
     <mat-icon>menu</mat-icon>
   </button>
   <h1 class="active-link">{{activeLink}}</h1>
   <span class="spacer"></span>
-  <!-- <button (click)="this.themeService.toggleDarkLightMode()" mat-stroked-button>
-      <mat-icon aria-hidden="false" aria-label="Theme Button" fontIcon="{{this.themeService.themeMode}}"></mat-icon>
-    </button> -->
-  <!-- <button (click)="this.themeService.toggleDarkLightMode()" mat-flat-button>
-      <mat-icon class="button-icon" aria-hidden="false" aria-label="Theme Button" fontIcon="{{this.themeService.themeMode}}"></mat-icon>
-      </button> -->
-  <mat-button-toggle-group aria-label="Favorite Color" [hideSingleSelectionIndicator]="true">
-    <!-- <mat-button-toggle>
-      <mat-icon class="button-icon" aria-hidden="false" aria-label="Theme Button"
-        fontIcon="dark_mode"></mat-icon>
-      </mat-button-toggle> -->
+  <mat-button-toggle-group [hideSingleSelectionIndicator]="true">
     <mat-button-toggle (click)="this.themeService.setModeToUserSettings()">
       <mat-icon class="button-icon" aria-hidden="false" aria-label="Theme Button"
         fontIcon="brightness_medium"></mat-icon>

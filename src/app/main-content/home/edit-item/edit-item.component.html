@@ -1,0 +1,145 @@
+<mat-card>
+    <form [formGroup]="form">
+        <mat-card-header>
+            <mat-card-title-group>
+                <mat-card-title>
+                    <h2>Edit item</h2>
+                </mat-card-title>
+            </mat-card-title-group>
+        </mat-card-header>
+
+        <mat-card-header>
+            <mat-card-title-group>
+                <mat-card-title>
+                    <mat-form-field class="input-width">
+                        <mat-label>Name</mat-label>
+                        <input matInput formControlName="name">
+                    </mat-form-field>
+                </mat-card-title>
+                <mat-card-subtitle>
+                    <mat-form-field class="input-width">
+                        <mat-label>Item description</mat-label>
+                        <textarea formControlName="description" matInput cdkTextareaAutosize cdkAutosizeMinRows="9"
+                            cdkAutosizeMaxRows="9"></textarea>
+                    </mat-form-field>
+                </mat-card-subtitle>
+                <div class="item-img-container">
+                    <img mat-card-lg-image [src]="croppedImage">
+                    <div class="flex-c-c" (click)="fileInput.click()">
+                        <mat-icon fontIcon="edit"></mat-icon>
+                        <input type="file" #fileInput (change)="fileChangeEvent($event)" accept="image/*" hidden>
+                    </div>
+                </div>
+            </mat-card-title-group>
+        </mat-card-header>
+
+        <mat-card-content>
+            <mat-card appearance="outlined" [ngClass]="{'label-edit': labelEdit}">
+                @if (!labelEdit) {
+                <mat-chip-set *ngIf="form.get('labels')?.value as labels">
+                    @for (label of labels; track $index) {
+                    <mat-chip cdkDrag>{{labelFn(label)?.labelName}}</mat-chip>
+                    }
+                </mat-chip-set>
+                } @else {
+                <mat-chip-set *ngIf="form.get('labels')?.value as labels">
+                    @for (label of this.firestoreService.labels$ | async; track label.id) {
+                    <mat-chip (click)="this.toggleLabel(label.id)"
+                        [ngClass]="{ 'selected-label': labels.includes(label.id) }" cdkDrag>{{label.name}}</mat-chip>
+                    }
+                </mat-chip-set>
+                }
+                @if (!labelEdit) {
+                <button mat-button class="edit-label-btn" (click)="labelEdit = true">Edit</button>
+                } @else {
+                <button mat-button class="edit-label-btn" (click)="labelEdit = false">Close</button>
+                }
+            </mat-card>
+        </mat-card-content>
+
+        <mat-card-content class="mar-top-24">
+            <div class="location-container scrollbar-material">
+                @if (showLocation) {
+                <mat-card-content class="position-container" [ngStyle]="!locationInput ? { height: '60px' } : {}">
+                    <div class="pointer" (click)="showLocation = false"
+                        matTooltip="{{locationFn(item.spaceId)?.roomName}}">
+                        {{locationFn(item.spaceId)?.roomName}}</div>
+                    <mat-icon fontIcon="arrow_forward_ios"></mat-icon>
+                    <div class="pointer" (click)="showLocation = false"
+                        matTooltip="{{locationFn(item.spaceId)?.furnitureName}}">
+                        {{locationFn(item.spaceId)?.furnitureName}}</div>
+                    <mat-icon fontIcon="arrow_forward_ios"></mat-icon>
+                    <div class="pointer" (click)="showLocation = false"
+                        matTooltip="{{locationFn(item.spaceId)?.spaceName}}">
+                        {{locationFn(item.spaceId)?.spaceName}}</div>
+                    <mat-icon fontIcon="arrow_forward_ios"></mat-icon>
+                    @if (locationInput) {
+                    <mat-form-field class="position-input-container">
+                        <mat-label>Exact position</mat-label>
+                        <input matInput placeholder="" autofocus (keydown.enter)="locationInput = false"
+                            formControlName="position" #positionInput required>
+                    </mat-form-field>
+                    } @else {
+                    <div class="pointer" (click)="locationInput = true" matTooltip="{{form.get('position')?.value}}">
+                        {{ form.get('position')?.value }}
+                    </div>
+                    }
+                </mat-card-content>
+                } @else {
+                <mat-accordion>
+                    @for (room of this.firestoreService.rooms$ | async; track room.id) {
+                    <mat-expansion-panel [disabled]="false">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>{{room.name}}</mat-panel-title>
+                        </mat-expansion-panel-header>
+                        @for (furniture of room.furnitures; track $index) {
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>{{furniture.furnitureName}}</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <mat-selection-list name="space" [multiple]="false">
+                                @for (space of furniture.space;; track $index) {
+                                <mat-list-option (click)="selectedStorageLocation(space.spaceId)">
+                                    {{space.name}}
+                                </mat-list-option>
+                                }
+                            </mat-selection-list>
+                        </mat-expansion-panel>
+                        }
+                    </mat-expansion-panel>
+                    }
+                </mat-accordion>
+                }
+            </div>
+        </mat-card-content>
+
+        <mat-card-content>
+            <div class="flex-end pad-top-24">
+                <button mat-button class="cancel-btn" (click)="this.closeEdit()">Cancel</button>
+                <button mat-button (click)="saveEditedItem()">Save</button>
+            </div>
+        </mat-card-content>
+    </form>
+</mat-card>
+
+@if (showCropper) {
+<div class="img-cropper-overlay flex-c-c-c">
+    <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="1 / 1"
+        [containWithinAspectRatio]="true" format="png" (imageCropped)="imageCropped($event)"
+        (loadImageFailed)="loadImageFailed()"></image-cropper>
+    <div class="cropper-buttons">
+        <button (click)="removeImg(); closeCropper()" mat-fab aria-label="Example icon button with a delete icon">
+            <mat-icon>cancel</mat-icon>
+        </button>
+        <button (click)="closeCropper()" mat-fab aria-label="Example icon button with a delete icon">
+            <mat-icon>check</mat-icon>
+        </button>
+    </div>
+</div>
+}
+
+@if (isLoading) {
+<div class="overlay-spinner flex-c-c">
+    <mat-spinner diameter="60"></mat-spinner>
+</div>
+}

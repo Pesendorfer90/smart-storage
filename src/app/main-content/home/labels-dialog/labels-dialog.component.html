@@ -1,8 +1,0 @@
-<h2 mat-dialog-title>All Labels for {{data.name}}</h2>
-<mat-dialog-content>
-    <mat-chip-set>
-        @for (label of data.labels; track $index) {
-        <mat-chip class="example-box" cdkDrag>{{label}}</mat-chip>
-        }
-    </mat-chip-set>
-</mat-dialog-content>

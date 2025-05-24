@@ -37,6 +37,16 @@ export class FirestoreService {
     return updateDoc(itemDoc, { photoURL });
   }
 
+  updateData(data: any, collectionName: string) {
+    if (!data?.id) {
+      throw new Error(`updateData: data.id fehlt! Data: ${JSON.stringify(data)}`);
+    }
+
+    const { id, ...updateData } = data;
+    const itemDoc = doc(this.firestore, collectionName, id);
+    return updateDoc(itemDoc, updateData);
+  }
+
   // Labels
 
   async saveOrUpdateLabels(labels: Labels[]) {
