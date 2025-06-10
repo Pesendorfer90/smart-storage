@@ -11,6 +11,7 @@ import { FirestoreService } from '../../service/firestore.service';
 import { AsyncPipe } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { AddRoomComponent } from './add-room/add-room.component';
+import { EditRoomComponent } from './edit-room/edit-room.component';
 
 @Component({
   selector: 'app-rooms',
@@ -87,6 +88,17 @@ export class RoomsComponent {
       width: isSmallScreen ? '100vw' : '90%',
       height: isSmallScreen ? '100vh' : undefined,
       maxWidth: isSmallScreen ? '100vw' : '880px',
+      panelClass: isSmallScreen ? 'full-screen-dialog' : ''
+    });
+  }
+
+  openEditRoom(room: Room) {
+    const isSmallScreen = window.innerWidth <= 599;
+    this.dialog.open(EditRoomComponent, {
+      data: room,
+      width: isSmallScreen ? '100vw' : '90%',
+      height: isSmallScreen ? '100vh' : undefined,
+      maxWidth: isSmallScreen ? '100vw' : '600px',
       panelClass: isSmallScreen ? 'full-screen-dialog' : ''
     });
   }

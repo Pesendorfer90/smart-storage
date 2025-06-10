@@ -12,28 +12,30 @@
     </div>
     <div class="search-results scrollbar-material">
         @for (item of this.firestoreService.items$ | async; track item.id) {
-        <mat-card class="item-card" appearance="outlined" (click)="openEditItem(item)">
+        <mat-card class="item-card pointer" appearance="outlined" (click)="openEditItem(item)">
             <mat-card-header>
-                <mat-card-title-group>
-                    <mat-card-title>{{item.name}}</mat-card-title>
-                    <mat-card-subtitle>
-                        <mat-chip-set>
-                            @for (label of item.labels.slice(0, 3); track $index) {
-                            <mat-chip class="example-box" cdkDrag>{{labelFn(label)?.labelName}}</mat-chip>
-                            }
+                <div class="mat-card-main-content">
+                    <div>
+                        <mat-card-title class="card-name">{{item.name}}</mat-card-title>
+                        <mat-card-subtitle>
+                            <mat-chip-set>
+                                @for (label of item.labels.slice(0, 3); track $index) {
+                                <mat-chip class="example-box" cdkDrag>{{labelFn(label)?.labelName}}</mat-chip>
+                                }
 
-                            @if (item.labels.length >= 3) {
-                            <div [matBadge]="item.labels.length - 3" matBadgeColor="accent"
-                                matBadgePosition="above after" matBadgeSize="medium">
-                                <mat-chip class="example-box" cdkDrag>...</mat-chip>
-                            </div>
-                            }
-                        </mat-chip-set>
-                    </mat-card-subtitle>
+                                @if (item.labels.length >= 3) {
+                                <div [matBadge]="item.labels.length - 3" matBadgeColor="accent"
+                                    matBadgePosition="above after" matBadgeSize="medium">
+                                    <mat-chip class="example-box" cdkDrag>...</mat-chip>
+                                </div>
+                                }
+                            </mat-chip-set>
+                        </mat-card-subtitle>
+                    </div>
                     <div class="item-img-container">
                         <img mat-card-lg-image src="{{item.photoURL}}">
                     </div>
-                </mat-card-title-group>
+                </div>
             </mat-card-header>
             <mat-card-content class="description-container">
                 {{item.description}}
@@ -42,7 +44,8 @@
             <mat-card-content class="position-container">
                 <div matTooltip="{{locationFn(item.spaceId)?.roomName}}">{{locationFn(item.spaceId)?.roomName}}</div>
                 <mat-icon aria-hidden="true" fontIcon="arrow_forward_ios"></mat-icon>
-                <div matTooltip="{{locationFn(item.spaceId)?.furnitureName}}">{{locationFn(item.spaceId)?.furnitureName}}</div>
+                <div matTooltip="{{locationFn(item.spaceId)?.furnitureName}}">
+                    {{locationFn(item.spaceId)?.furnitureName}}</div>
                 <mat-icon aria-hidden="true" fontIcon="arrow_forward_ios"></mat-icon>
                 <div matTooltip="{{locationFn(item.spaceId)?.spaceName}}">{{locationFn(item.spaceId)?.spaceName}}</div>
                 <mat-icon aria-hidden="true" fontIcon="arrow_forward_ios"></mat-icon>

@@ -1,5 +1,5 @@
-import { AsyncPipe } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { AsyncPipe, NgIf } from '@angular/common';
+import { Component, HostListener, inject } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormsModule, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -23,6 +23,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 @Component({
   selector: 'app-add-room',
   imports: [
+    NgIf,
     MatStepperModule,
     FormsModule,
     ReactiveFormsModule,
@@ -50,6 +51,7 @@ export class AddRoomComponent {
 
   showCropper: boolean = false;
   isLoading: boolean = false;
+  isMobile = window.innerWidth < 600;
 
   firstFormGroup = this._formBuilder.group({
     firstCtrl: ['', [Validators.required]],
@@ -73,13 +75,18 @@ export class AddRoomComponent {
     public firestoreService: FirestoreService,
     private cloudService: CloudService,
     private sanitizer: DomSanitizer,
-    private dialogRef: MatDialogRef<AddRoomComponent>
+    public dialogRef: MatDialogRef<AddRoomComponent>
   ) {
     const breakpointObserver = inject(BreakpointObserver);
 
     this.stepperOrientation = breakpointObserver
       .observe('(min-width: 800px)')
       .pipe(map(({ matches }) => (matches ? 'horizontal' : 'vertical')));
+  }
+
+    @HostListener('window:resize')
+  onResize() {
+    this.isMobile = window.innerWidth < 600;
   }
 
   onStepChange(event: StepperSelectionEvent) {

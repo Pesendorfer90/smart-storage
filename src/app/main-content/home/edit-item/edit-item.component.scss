@@ -10,6 +10,10 @@ h2 {
   font-weight: 500;
 }
 
+mat-card-title-group {
+  display: flex;
+}
+
 .input-width {
   width: 275px;
 }
@@ -62,6 +66,11 @@ h2 {
   }
 }
 
+.label-card {
+  max-height: 106px;
+  min-height: 66px;
+}
+
 .label-edit {
   background-color: var(--mat-sys-surface-bright);
 
@@ -70,21 +79,9 @@ h2 {
   }
 }
 
-mat-chip-set {
-  max-height: 80px;
-  min-height: 40px;
-  box-sizing: border-box;
-}
-
 .selected-label {
   background-color: var(--mat-sys-secondary-container);
   color: var(--mat-sys-on-secondary-container);
-}
-
-.edit-label-btn {
-  position: absolute;
-  bottom: 12px;
-  right: 5px;
 }
 
 .position-container {
@@ -99,9 +96,12 @@ mat-chip-set {
 
   div {
     width: calc(((366px - (22px * 4)) / 4));
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+
+    p {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
   }
 
   mat-icon {
@@ -112,5 +112,63 @@ mat-chip-set {
 
   mat-form-field {
     margin-top: 16px;
+  }
+}
+
+.full-width {
+  width: 100%;
+
+  div {
+    width: 100%;
+  }
+}
+
+.position-description {
+  color: var(--mat-sys-on-primary-container);
+}
+
+@media (max-width: 599px) {
+  mat-card {
+    height: unset;
+  }
+
+  .item-img-container {
+    width: 100%;
+    height: 100%;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .position-container {
+    justify-content: center;
+    flex-wrap: wrap;
+    height: unset;
+
+    div {
+      width: 50%;
+      text-align: center;
+    }
+
+    mat-form-field {
+      margin-top: 10px;
+      width: 50%;
+    }
+  }
+}
+
+@media (max-width: 450px) {
+.position-container {
+    flex-wrap: wrap;
+
+    div {
+      width: 100%;
+    }
+
+    mat-form-field {
+      width: 80%;
+    }
   }
 }

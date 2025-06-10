@@ -1,0 +1,83 @@
+<mat-card [ngClass]="{ 'border-unset': isMobile }">
+    <form [formGroup]="form">
+        <mat-card-header>
+            <mat-card-title-group>
+                <mat-card-title>
+                    <h2>Edit Room</h2>
+                </mat-card-title>
+            </mat-card-title-group>
+        </mat-card-header>
+
+        <mat-card-header>
+            <mat-card-title-group [ngClass]="{ 'flex-c-c-c pad-bottom-24': isMobile }">
+                <div [ngClass]="{ 'full-width': isMobile }">
+                    <mat-form-field class="input-width" [ngClass]="{ 'full-width': isMobile }">
+                        <mat-label>Name</mat-label>
+                        <input matInput formControlName="name">
+                    </mat-form-field>
+                    <mat-form-field class="input-width" [ngClass]="{ 'full-width': isMobile }">
+                        <mat-label>Room description</mat-label>
+                        <input matInput formControlName="description" class="scrollbar-material">
+                    </mat-form-field>
+                </div>
+                <div class="item-img-container">
+                    <img mat-card-lg-image [src]="croppedImage">
+                    <div class="flex-c-c" (click)="fileInput.click()">
+                        <mat-icon fontIcon="edit"></mat-icon>
+                        <input type="file" #fileInput (change)="fileChangeEvent($event)" accept="image/*" hidden>
+                    </div>
+                </div>
+            </mat-card-title-group>
+        </mat-card-header>
+
+        <mat-card-content class="mar-top-24">
+            <div class="location-container scrollbar-material">
+                <mat-accordion>
+                    @for (furniture of room.furnitures; track $index) {
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>{{furniture.furnitureName}}</mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <mat-selection-list name="space" [multiple]="false">
+                            @for (space of furniture.space;; track $index) {
+                            <mat-list-option>
+                                {{space.name}}
+                            </mat-list-option>
+                            }
+                        </mat-selection-list>
+                    </mat-expansion-panel>
+                    }
+                </mat-accordion>
+            </div>
+        </mat-card-content>
+
+        <mat-card-content>
+            <div class="flex-end pad-top-24">
+                <button mat-button class="cancel-btn" (click)="this.closeEdit()">Cancel</button>
+                <button mat-button (click)="saveEditedItem()">Save</button>
+            </div>
+        </mat-card-content>
+    </form>
+</mat-card>
+
+@if (showCropper) {
+<div class="img-cropper-overlay flex-c-c-c">
+    <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="1 / 1"
+        [containWithinAspectRatio]="true" format="png" (imageCropped)="imageCropped($event)"
+        (loadImageFailed)="loadImageFailed()"></image-cropper>
+    <div class="cropper-buttons">
+        <button (click)="removeImg(); closeCropper()" mat-fab aria-label="Example icon button with a delete icon">
+            <mat-icon>cancel</mat-icon>
+        </button>
+        <button (click)="closeCropper()" mat-fab aria-label="Example icon button with a delete icon">
+            <mat-icon>check</mat-icon>
+        </button>
+    </div>
+</div>
+}
+
+@if (isLoading) {
+<div class="overlay-spinner flex-c-c">
+    <mat-spinner diameter="60"></mat-spinner>
+</div>
+}

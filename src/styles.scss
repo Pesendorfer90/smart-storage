@@ -100,8 +100,16 @@ section {
   width: 100%;
 }
 
+.pad-16 {
+  padding: 16px;
+}
+
 .pad-top-24 {
   padding-top: 24px;
+}
+
+.pad-bottom-24 {
+  padding-bottom: 24px;
 }
 
 .mar-top-24 {
@@ -112,6 +120,14 @@ section {
   margin-left: auto;
 }
 
+.margin-top-auto {
+  margin-top: auto;
+}
+
+.border-box {
+  box-sizing: border-box;
+}
+
 .flex-end {
   display: flex;
   justify-content: flex-end;
@@ -120,6 +136,30 @@ section {
 
 .pointer {
   cursor: pointer;
+}
+
+.cancel-btn {
+  display: flex;
+  justify-content: flex-end;
+  // padding: 16px;
+  box-sizing: border-box;
+  margin-top: auto;
+}
+
+.item-card {
+  margin: 8px;
+  width: 400px;
+}
+
+.card-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: preserve nowrap;
+  max-width: 202px;
+}
+
+.border-unset {
+  border-radius: 0px !important;
 }
 
 // Add Overlay Items & Rooms
@@ -213,5 +253,12 @@ section {
 @media(max-width: 599px) {
   .location-container {
     max-height: unset;
+  }
+}
+
+@media (max-width: 450px) {
+  .item-card {
+    margin: 8px 0;
+    width: 100%;
   }
 }

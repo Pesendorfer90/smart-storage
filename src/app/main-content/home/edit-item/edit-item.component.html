@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card [ngClass]="{ 'border-unset': isMobile }">
     <form [formGroup]="form">
         <mat-card-header>
             <mat-card-title-group>
@@ -9,20 +9,18 @@
         </mat-card-header>
 
         <mat-card-header>
-            <mat-card-title-group>
-                <mat-card-title>
-                    <mat-form-field class="input-width">
+            <mat-card-title-group [ngClass]="{ 'flex-c-c-c pad-bottom-24': isMobile }">
+                <div [ngClass]="{ 'full-width': isMobile }">
+                    <mat-form-field class="input-width" [ngClass]="{ 'full-width': isMobile }">
                         <mat-label>Name</mat-label>
                         <input matInput formControlName="name">
                     </mat-form-field>
-                </mat-card-title>
-                <mat-card-subtitle>
-                    <mat-form-field class="input-width">
+                    <mat-form-field class="input-width" [ngClass]="{ 'full-width': isMobile }">
                         <mat-label>Item description</mat-label>
-                        <textarea formControlName="description" matInput cdkTextareaAutosize cdkAutosizeMinRows="9"
-                            cdkAutosizeMaxRows="9"></textarea>
+                        <textarea formControlName="description" class="scrollbar-material" matInput cdkTextareaAutosize
+                            cdkAutosizeMinRows="9" cdkAutosizeMaxRows="9"></textarea>
                     </mat-form-field>
-                </mat-card-subtitle>
+                </div>
                 <div class="item-img-container">
                     <img mat-card-lg-image [src]="croppedImage">
                     <div class="flex-c-c" (click)="fileInput.click()">
@@ -34,12 +32,13 @@
         </mat-card-header>
 
         <mat-card-content>
-            <mat-card appearance="outlined" [ngClass]="{'label-edit': labelEdit}">
+            <mat-card class="scrollbar-material label-card" appearance="outlined" [ngClass]="{'label-edit': labelEdit}">
                 @if (!labelEdit) {
                 <mat-chip-set *ngIf="form.get('labels')?.value as labels">
                     @for (label of labels; track $index) {
                     <mat-chip cdkDrag>{{labelFn(label)?.labelName}}</mat-chip>
                     }
+                    <button mat-button style="margin-left: auto;" (click)="labelEdit = true">Edit</button>
                 </mat-chip-set>
                 } @else {
                 <mat-chip-set *ngIf="form.get('labels')?.value as labels">
@@ -47,12 +46,8 @@
                     <mat-chip (click)="this.toggleLabel(label.id)"
                         [ngClass]="{ 'selected-label': labels.includes(label.id) }" cdkDrag>{{label.name}}</mat-chip>
                     }
+                    <button mat-button style="margin-left: auto;" (click)="labelEdit = false">Close</button>
                 </mat-chip-set>
-                }
-                @if (!labelEdit) {
-                <button mat-button class="edit-label-btn" (click)="labelEdit = true">Edit</button>
-                } @else {
-                <button mat-button class="edit-label-btn" (click)="labelEdit = false">Close</button>
                 }
             </mat-card>
         </mat-card-content>
@@ -60,28 +55,43 @@
         <mat-card-content class="mar-top-24">
             <div class="location-container scrollbar-material">
                 @if (showLocation) {
-                <mat-card-content class="position-container" [ngStyle]="!locationInput ? { height: '60px' } : {}">
+                <mat-card-content class="position-container" [ngStyle]="!locationInput && !isMobile ? { height: '60px' } : {}">
                     <div class="pointer" (click)="showLocation = false"
                         matTooltip="{{locationFn(item.spaceId)?.roomName}}">
-                        {{locationFn(item.spaceId)?.roomName}}</div>
-                    <mat-icon fontIcon="arrow_forward_ios"></mat-icon>
+                        <p *ngIf="isMobile" class="position-description">Room</p>
+                        <p>
+                            {{locationFn(item.spaceId)?.roomName}}
+                        </p>
+                    </div>
+                    <mat-icon fontIcon="arrow_forward_ios" *ngIf="!isMobile"></mat-icon>
                     <div class="pointer" (click)="showLocation = false"
                         matTooltip="{{locationFn(item.spaceId)?.furnitureName}}">
-                        {{locationFn(item.spaceId)?.furnitureName}}</div>
-                    <mat-icon fontIcon="arrow_forward_ios"></mat-icon>
+                        <p *ngIf="isMobile" class="position-description">Furniture</p>
+                        <p>
+                            {{locationFn(item.spaceId)?.furnitureName}}
+                        </p>
+                    </div>
+                    <mat-icon fontIcon="arrow_forward_ios" *ngIf="!isMobile"></mat-icon>
                     <div class="pointer" (click)="showLocation = false"
                         matTooltip="{{locationFn(item.spaceId)?.spaceName}}">
-                        {{locationFn(item.spaceId)?.spaceName}}</div>
-                    <mat-icon fontIcon="arrow_forward_ios"></mat-icon>
+                        <p *ngIf="isMobile" class="position-description">Location</p>
+                        <p>
+                            {{locationFn(item.spaceId)?.spaceName}}
+                        </p>
+                    </div>
+                    <mat-icon fontIcon="arrow_forward_ios" *ngIf="!isMobile"></mat-icon>
                     @if (locationInput) {
-                    <mat-form-field class="position-input-container">
+                    <mat-form-field>
                         <mat-label>Exact position</mat-label>
                         <input matInput placeholder="" autofocus (keydown.enter)="locationInput = false"
                             formControlName="position" #positionInput required>
                     </mat-form-field>
                     } @else {
                     <div class="pointer" (click)="locationInput = true" matTooltip="{{form.get('position')?.value}}">
-                        {{ form.get('position')?.value }}
+                        <p *ngIf="isMobile" class="position-description">Space</p>
+                        <p>
+                            {{ form.get('position')?.value }}
+                        </p>
                     </div>
                     }
                 </mat-card-content>

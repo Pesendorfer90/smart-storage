@@ -94,7 +94,8 @@
                 <mat-card appearance="outlined">
                     <mat-card-content class="flex-c-c">
                         @if (croppedImage) {
-                        <img [src]="croppedImage" alt="Vorschau" class="preview-img" style="max-width: 300px; max-height: 300px;">
+                        <img [src]="croppedImage" alt="Vorschau" class="preview-img"
+                            style="max-width: 300px; max-height: 300px;">
                         } @else {
                         <button mat-fab (click)="fileInput.click()">
                             <input type="file" #fileInput (change)="fileChangeEvent($event)" accept="image/*" hidden>
@@ -114,6 +115,9 @@
             </form>
         </mat-step>
     </mat-stepper>
+</div>
+<div class="flex-end pad-16 margin-top-auto border-box" *ngIf="isMobile">
+    <button *ngIf="isMobile" mat-button class="cancel-btn" (click)="this.dialogRef.close()">Cancel</button>
 </div>
 @if (showCropper) {
 <div class="img-cropper-overlay flex-c-c-c">

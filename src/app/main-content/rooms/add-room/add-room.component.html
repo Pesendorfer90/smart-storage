@@ -66,7 +66,7 @@
 
                             <mat-selection-list name="spaces" [multiple]="false" class="space-list">
                                 @for (spaceName of fourthFormGroup.value.spaces?.[$index] ?? []; track spaceName) {
-                                <div class="flex-sb-c">
+                                <div class="flex-sb-c pad-bottom-24">
                                     <span>{{ spaceName }}</span>
                                     <button mat-icon-button (click)="deleteSpace(spaceName, furnitureIndex)">
                                         <mat-icon fontIcon="close"></mat-icon>
@@ -118,6 +118,9 @@
             </form>
         </mat-step>
     </mat-stepper>
+</div>
+<div class="flex-end pad-16 margin-top-auto border-box" *ngIf="isMobile">
+    <button mat-button class="cancel-btn" (click)="this.dialogRef.close()">Cancel</button>
 </div>
 @if (showCropper) {
 <div class="img-cropper-overlay flex-c-c-c">

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { NgClass, NgStyle, NgIf } from '@angular/common';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Inventory } from '../../../models/inventory';
@@ -55,6 +55,7 @@ export class EditItemComponent {
   isLoading: boolean = false;
   showCropper: boolean = false;
   form!: FormGroup;
+  isMobile = window.innerWidth < 600;
 
   imageChangedEvent: Event | null = null;
   croppedImage: SafeUrl = '';
@@ -85,6 +86,11 @@ export class EditItemComponent {
       id: [this.item.id, Validators.required],
     });
     this.croppedImage = this.item.photoURL;
+  }
+
+  @HostListener('window:resize')
+  onResize() {
+    this.isMobile = window.innerWidth < 600;
   }
 
   fileChangeEvent(event: Event): void {

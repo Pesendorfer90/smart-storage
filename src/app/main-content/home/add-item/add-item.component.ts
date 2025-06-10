@@ -1,4 +1,4 @@
-import { Component, inject, QueryList, ViewChildren } from '@angular/core';
+import { Component, HostListener, inject, QueryList, ViewChildren } from '@angular/core';
 import { FormBuilder, Validators, FormsModule, ReactiveFormsModule, FormArray, FormControl } from '@angular/forms';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { StepperOrientation, MatStepperModule } from '@angular/material/stepper';
@@ -7,7 +7,7 @@ import { map } from 'rxjs/operators';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgIf } from '@angular/common';
 import { MatChipsModule } from '@angular/material/chips';
 import { FirestoreService } from '../../../service/firestore.service';
 import { MatExpansionModule, MatExpansionPanel } from '@angular/material/expansion';
@@ -26,6 +26,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 @Component({
   selector: 'app-add-item',
   imports: [
+    NgIf,
     MatStepperModule,
     FormsModule,
     ReactiveFormsModule,
@@ -57,6 +58,7 @@ export class AddItemComponent {
   location: { roomName: string; furnitureName: string; spaceName: string; id: string } | null = null;
   showCropper: boolean = false;
   isLoading: boolean = false;
+  isMobile = window.innerWidth < 600;
 
   @ViewChildren(MatExpansionPanel) panels!: QueryList<MatExpansionPanel>;
 
@@ -83,12 +85,17 @@ export class AddItemComponent {
     private searchService: SearchService,
     private cloudService: CloudService,
     private sanitizer: DomSanitizer,
-    private dialogRef: MatDialogRef<AddItemComponent>
+    public dialogRef: MatDialogRef<AddItemComponent>
   ) {
     const breakpointObserver = inject(BreakpointObserver);
     this.stepperOrientation = breakpointObserver
       .observe('(min-width: 800px)')
       .pipe(map(({ matches }) => (matches ? 'horizontal' : 'vertical')));
+  }
+
+  @HostListener('window:resize')
+  onResize() {
+    this.isMobile = window.innerWidth < 600;
   }
 
   selectedStorageLocation(id: string) {
