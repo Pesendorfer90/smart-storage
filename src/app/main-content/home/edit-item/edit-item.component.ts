@@ -147,7 +147,7 @@ export class EditItemComponent {
     this.isLoading = true;
 
     try {
-      const itemData = {
+      const itemData: Inventory = {
         name: this.form.value.name,
         description: this.form.value.description,
         position: this.form.value.position,

@@ -1,6 +1,6 @@
 import { AsyncPipe, NgClass } from '@angular/common';
 import { Component, HostListener, inject } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -31,7 +31,7 @@ import { CloudService } from '../../../service/cloud.service';
     MatTooltipModule,
     MatIconModule,
     MatListModule,
-    AsyncPipe,
+    // AsyncPipe,
     MatButtonModule,
     MatProgressSpinnerModule,
     ImageCropperComponent
@@ -70,34 +70,77 @@ export class EditRoomComponent {
       name: [this.room.name, Validators.required],
       description: [this.room.description, Validators.required],
       photoURL: [this.room.photoURL],
-      furnitures: [this.room.furnitures || []],
+      furnitures: this._formBuilder.array(
+        this.room.furnitures.map(f => this._formBuilder.group({
+          furnitureName: [f.furnitureName, Validators.required],
+          space: this._formBuilder.array(
+            f.space.map(s => this._formBuilder.group({
+              name: [s.name, Validators.required],
+              spaceId: [s.spaceId]
+            }))
+          )
+        }))
+      ),
       id: [this.room.id, Validators.required],
     });
+
+    // UI-Status hinzufügen
+    this.room.furnitures = this.room.furnitures.map(f => ({
+      ...f,
+      titelEdit: false,
+      space: f.space.map(s => ({
+        ...s,
+        titelEdit: false
+      }))
+    }));
+
     this.croppedImage = this.room.photoURL;
   }
-  
+
+  get furnitures(): FormArray {
+    return this.form.get('furnitures') as FormArray;
+  }
+
+  getSpaces(i: number): FormArray {
+    return this.furnitures.at(i).get('space') as FormArray;
+  }
+
+  getSpaceGroup(i: number, si: number): FormGroup {
+    return this.getSpaces(i).at(si) as FormGroup;
+  }
+
+
   fileChangeEvent(event: Event): void {
-      this.imageChangedEvent = event;
-      this.showCropper = true;
-    }
-  
-    imageCropped(event: ImageCroppedEvent) {
-      this.croppedImageBlob = event.blob ?? null;
-      this.croppedImage = this.sanitizer.bypassSecurityTrustUrl(event.objectUrl!);
-    }
-  
-    loadImageFailed() {
-      // show message
-    }
-  
-    closeCropper() {
-      this.showCropper = false;
-    }
-  
-    removeImg() {
-      this.croppedImage = this.room.photoURL;
-      this.croppedImageBlob = null;
-    }
+    this.imageChangedEvent = event;
+    this.showCropper = true;
+  }
+
+  imageCropped(event: ImageCroppedEvent) {
+    this.croppedImageBlob = event.blob ?? null;
+    this.croppedImage = this.sanitizer.bypassSecurityTrustUrl(event.objectUrl!);
+  }
+
+  loadImageFailed() {
+    // show message
+  }
+
+  closeCropper() {
+    this.showCropper = false;
+  }
+
+  removeImg() {
+    this.croppedImage = this.room.photoURL;
+    this.croppedImageBlob = null;
+  }
+
+  onTitleClick(event: MouseEvent, furniture: any): void {
+    this.preventEvent(event);
+    furniture.titelEdit = true;
+  }
+
+  preventEvent(event: MouseEvent) {
+    event.stopPropagation();
+  }
 
   saveEditedItem() {
     console.log('hi');

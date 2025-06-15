@@ -9,9 +9,11 @@ export interface Room {
 export interface Furniture {
         furnitureName: string;
         space: Space[];
+        titelEdit?: boolean;
 }
 
 export interface Space {
-        name: string;
-        spaceId: string;
+  name: string;
+  spaceId: string;
+  titelEdit?: boolean;
 }

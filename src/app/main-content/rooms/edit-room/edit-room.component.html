@@ -32,22 +32,55 @@
 
         <mat-card-content class="mar-top-24">
             <div class="location-container scrollbar-material">
-                <mat-accordion>
-                    @for (furniture of room.furnitures; track $index) {
+                <mat-accordion formArrayName="furnitures">
+                    @for (furniture of room.furnitures; let i = $index; track $index) {
                     <mat-expansion-panel>
-                        <mat-expansion-panel-header>
-                            <mat-panel-title>{{furniture.furnitureName}}</mat-panel-title>
+                        <mat-expansion-panel-header [ngClass]="{'edit-style': furniture.titelEdit}">
+                            <mat-panel-title>
+                                @if (!furniture.titelEdit) {
+                                <div (click)="onTitleClick($event, furniture)">
+                                    {{ furnitures.at(i).get('furnitureName')?.value }}
+                                </div>
+                                } @else {
+                                <div [formGroupName]="i">
+                                    <mat-form-field (click)="preventEvent($event)"
+                                        [ngClass]="{ 'full-width': isMobile, 'form-field-margin': furniture.titelEdit}">
+                                        <mat-label>Name</mat-label>
+                                        <input matInput formControlName="furnitureName"
+                                            (keydown.enter)="furniture.titelEdit = false">
+                                    </mat-form-field>
+                                </div>
+                                }
+                            </mat-panel-title>
                         </mat-expansion-panel-header>
+
+                        <!-- <mat-selection-list name="space" [multiple]="false">
+                            @for (space of furniture.space; let i = $index; track $index) {
+                            <mat-list class="pointer">
+                                {{ space.name }}
+                            </mat-list>
+                            }
+                        </mat-selection-list> -->
+
                         <mat-selection-list name="space" [multiple]="false">
-                            @for (space of furniture.space;; track $index) {
-                            <mat-list-option>
-                                {{space.name}}
-                            </mat-list-option>
+                            @for (space of furniture.space; let si = $index; track $index) {
+                            <div [formGroup]="getSpaceGroup(i, si)">
+                                @if (!space.titelEdit) {
+                                <mat-list (click)="space.titelEdit = true">{{ getSpaces(i).at(si).get('name')?.value
+                                    }}</mat-list>
+                                } @else {
+                                <mat-form-field>
+                                    <input matInput formControlName="name" (keydown.enter)="space.titelEdit = false">
+                                </mat-form-field>
+                                }
+                            </div>
                             }
                         </mat-selection-list>
+
                     </mat-expansion-panel>
                     }
                 </mat-accordion>
+
             </div>
         </mat-card-content>
 
