@@ -56,24 +56,21 @@
             <div class="location-container scrollbar-material">
                 @if (showLocation) {
                 <mat-card-content class="position-container" [ngStyle]="!locationInput && !isMobile ? { height: '60px' } : {}">
-                    <div class="pointer" (click)="showLocation = false"
-                        matTooltip="{{locationFn(item.spaceId)?.roomName}}">
+                    <div class="pointer" (click)="showLocation = false">
                         <p *ngIf="isMobile" class="position-description">Room</p>
                         <p>
                             {{locationFn(item.spaceId)?.roomName}}
                         </p>
                     </div>
                     <mat-icon fontIcon="arrow_forward_ios" *ngIf="!isMobile"></mat-icon>
-                    <div class="pointer" (click)="showLocation = false"
-                        matTooltip="{{locationFn(item.spaceId)?.furnitureName}}">
+                    <div class="pointer" (click)="showLocation = false">
                         <p *ngIf="isMobile" class="position-description">Furniture</p>
                         <p>
                             {{locationFn(item.spaceId)?.furnitureName}}
                         </p>
                     </div>
                     <mat-icon fontIcon="arrow_forward_ios" *ngIf="!isMobile"></mat-icon>
-                    <div class="pointer" (click)="showLocation = false"
-                        matTooltip="{{locationFn(item.spaceId)?.spaceName}}">
+                    <div class="pointer" (click)="showLocation = false">
                         <p *ngIf="isMobile" class="position-description">Location</p>
                         <p>
                             {{locationFn(item.spaceId)?.spaceName}}
@@ -87,7 +84,7 @@
                             formControlName="position" #positionInput required>
                     </mat-form-field>
                     } @else {
-                    <div class="pointer" (click)="locationInput = true" matTooltip="{{form.get('position')?.value}}">
+                    <div class="pointer" (click)="locationInput = true">
                         <p *ngIf="isMobile" class="position-description">Space</p>
                         <p>
                             {{ form.get('position')?.value }}

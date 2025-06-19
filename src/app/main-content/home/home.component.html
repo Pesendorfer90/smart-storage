@@ -12,50 +12,100 @@
     </div>
     <div class="search-results scrollbar-material">
         @for (item of this.firestoreService.items$ | async; track item.id) {
-        <mat-card class="item-card pointer" appearance="outlined" (click)="openEditItem(item)">
+        <mat-card class="item-card" appearance="outlined">
             <mat-card-header>
-                <div class="mat-card-main-content">
-                    <div>
-                        <mat-card-title class="card-name">{{item.name}}</mat-card-title>
-                        <mat-card-subtitle>
-                            <mat-chip-set>
-                                @for (label of item.labels.slice(0, 3); track $index) {
-                                <mat-chip class="example-box" cdkDrag>{{labelFn(label)?.labelName}}</mat-chip>
-                                }
+                <mat-card-title class="card-name">{{item.name}}</mat-card-title>
+                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Room Menu">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu" xPosition="before">
+                    <button mat-menu-item (click)="openEditItem(item)">
+                        <mat-icon>edit</mat-icon>
+                        <span>Edit</span>
+                    </button>
+                    <button mat-menu-item>
+                        <mat-icon>delete</mat-icon>
+                        <span>Delete</span>
+                    </button>
+                </mat-menu>
+            </mat-card-header>
 
-                                @if (item.labels.length >= 3) {
-                                <div [matBadge]="item.labels.length - 3" matBadgeColor="accent"
-                                    matBadgePosition="above after" matBadgeSize="medium">
-                                    <mat-chip class="example-box" cdkDrag>...</mat-chip>
-                                </div>
-                                }
-                            </mat-chip-set>
-                        </mat-card-subtitle>
+            <mat-divider></mat-divider>
+
+            <mat-card-content [ngClass]="{'pad-0': isMobile}">
+                <div class="mat-card-main-content"
+                    [ngClass]="{ 'flex-c-c-c': isMobile, 'pad-top-12 pad-bottom-12': !isMobile }">
+                    <div>
+                        @if (!isMobile) {
+                        <div class="description-container">
+                            {{item.description}}
+                        </div>
+                        }
                     </div>
                     <div class="item-img-container">
                         <img mat-card-lg-image src="{{item.photoURL}}">
                     </div>
                 </div>
-            </mat-card-header>
-            <mat-card-content class="description-container">
-                {{item.description}}
             </mat-card-content>
-            <mat-divider></mat-divider>
-            <mat-card-content class="position-container">
-                <div matTooltip="{{locationFn(item.spaceId)?.roomName}}">{{locationFn(item.spaceId)?.roomName}}</div>
-                <mat-icon aria-hidden="true" fontIcon="arrow_forward_ios"></mat-icon>
-                <div matTooltip="{{locationFn(item.spaceId)?.furnitureName}}">
-                    {{locationFn(item.spaceId)?.furnitureName}}</div>
-                <mat-icon aria-hidden="true" fontIcon="arrow_forward_ios"></mat-icon>
-                <div matTooltip="{{locationFn(item.spaceId)?.spaceName}}">{{locationFn(item.spaceId)?.spaceName}}</div>
-                <mat-icon aria-hidden="true" fontIcon="arrow_forward_ios"></mat-icon>
-                <div matTooltip="{{item.position}}">{{item.position}}</div>
-            </mat-card-content>
+
+
+            <mat-divider *ngIf="isMobile"></mat-divider>
+
+
+            <div class="more-info-container" *ngIf="expandedItemId === item.id || !isMobile" @slideDown>
+                @if (isMobile) {
+                <mat-card-content class="description-container">
+                    {{item.description}}
+                </mat-card-content>
+                }
+
+                <mat-divider class="margin-top-auto"></mat-divider>
+
+                <mat-card-content class="position-container">
+                    <div class="pointer" matTooltip="{{locationFn(item.spaceId)?.roomName}}">
+                        <p *ngIf="isMobile" class="position-description">Room</p>
+                        <p>
+                            {{locationFn(item.spaceId)?.roomName}}
+                        </p>
+                    </div>
+                    <mat-icon fontIcon="arrow_forward_ios" *ngIf="!isMobile"></mat-icon>
+                    <div class="pointer" matTooltip="{{locationFn(item.spaceId)?.furnitureName}}">
+                        <p *ngIf="isMobile" class="position-description">Furniture</p>
+                        <p>
+                            {{locationFn(item.spaceId)?.furnitureName}}
+                        </p>
+                    </div>
+                    <mat-icon fontIcon="arrow_forward_ios" *ngIf="!isMobile"></mat-icon>
+                    <div class="pointer" matTooltip="{{locationFn(item.spaceId)?.spaceName}}">
+                        <p *ngIf="isMobile" class="position-description">Location</p>
+                        <p>
+                            {{locationFn(item.spaceId)?.spaceName}}
+                        </p>
+                    </div>
+                    <mat-icon fontIcon="arrow_forward_ios" *ngIf="!isMobile"></mat-icon>
+                    <div class="pointer" matTooltip="{{item.position}}">
+                        <p *ngIf="isMobile" class="position-description">Space</p>
+                        <p>
+                            {{item.position}}
+                        </p>
+                    </div>
+                </mat-card-content>
+            </div>
+
+            <mat-divider *ngIf="isMobile"></mat-divider>
+            <div class="info-drop-down-btn flex-c-c" *ngIf="isMobile" 
+            [ngStyle]="expandedItemId === item.id ? { 'background-color': 'unset' } : {}">
+                <button (click)="toggleItemInfo(item.id)">
+                    {{ expandedItemId === item.id ? 'Hide Info' : 'Show Info' }}
+                </button>
+            </div>
+
+
         </mat-card>
         }
     </div>
     <div class="float-add-button">
-        <button mat-fab aria-label="Example icon button with a delete icon" (click)="openAddItem()">
+        <button mat-fab (click)="openAddItem()">
             <mat-icon>add</mat-icon>
         </button>
     </div>

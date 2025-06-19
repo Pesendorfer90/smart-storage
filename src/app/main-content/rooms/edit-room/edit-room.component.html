@@ -10,7 +10,7 @@
 
         <mat-card-header>
             <mat-card-title-group [ngClass]="{ 'flex-c-c-c pad-bottom-24': isMobile }">
-                <div [ngClass]="{ 'full-width': isMobile }">
+                <div [ngClass]="{ 'full-width flex-c-c-c': isMobile }">
                     <mat-form-field class="input-width" [ngClass]="{ 'full-width': isMobile }">
                         <mat-label>Name</mat-label>
                         <input matInput formControlName="name">
@@ -53,14 +53,6 @@
                                 }
                             </mat-panel-title>
                         </mat-expansion-panel-header>
-
-                        <!-- <mat-selection-list name="space" [multiple]="false">
-                            @for (space of furniture.space; let i = $index; track $index) {
-                            <mat-list class="pointer">
-                                {{ space.name }}
-                            </mat-list>
-                            }
-                        </mat-selection-list> -->
 
                         <mat-selection-list name="space" [multiple]="false">
                             @for (space of furniture.space; let si = $index; track $index) {

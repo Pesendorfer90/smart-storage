@@ -36,6 +36,10 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+mat-divider {
+  border-top-color: var(--mdc-outlined-card-outline-color, var(--mat-sys-outline-variant)) !important;
+}
+
 section {
   width: 100%;
   height: 100%;
@@ -100,12 +104,28 @@ section {
   width: 100%;
 }
 
+.pad-0 {
+  padding: 0 !important;
+}
+
 .pad-16 {
   padding: 16px;
 }
 
+.pad-top-12 {
+  padding-top: 12px;
+}
+
 .pad-top-24 {
   padding-top: 24px;
+}
+
+.pad-bottom-8 {
+  padding-bottom: 8px;
+}
+
+.pad-bottom-12 {
+  padding-bottom: 12px;
 }
 
 .pad-bottom-24 {
@@ -169,6 +189,13 @@ section {
   padding: 0;
   margin: 0;
   box-shadow: none;
+}
+
+mat-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 16px !important;
 }
 
 .mat-vertical-content {

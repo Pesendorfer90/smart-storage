@@ -1,5 +1,5 @@
-import { Component, inject } from '@angular/core';
-import { AsyncPipe } from '@angular/common';
+import { Component, HostListener, inject } from '@angular/core';
+import { AsyncPipe, NgClass, NgIf, NgStyle } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -18,10 +18,15 @@ import { Labels } from '../../models/labels';
 import { SearchService } from '../../service/search.service';
 import { Inventory } from '../../models/inventory';
 import { EditItemComponent } from './edit-item/edit-item.component';
+import { trigger, transition, style, animate } from '@angular/animations';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'app-home',
   imports: [
+    NgClass,
+    NgStyle,
+    NgIf,
     AsyncPipe,
     MatFormFieldModule,
     MatInputModule,
@@ -33,9 +38,21 @@ import { EditItemComponent } from './edit-item/edit-item.component';
     MatTooltipModule,
     FormsModule,
     MatButtonModule,
+    MatMenuModule
   ],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.scss'
+  styleUrl: './home.component.scss',
+  animations: [
+    trigger('slideDown', [
+      transition(':enter', [
+        style({ height: 0, opacity: 0, transform: 'translateY(-10px)' }),
+        animate('225ms ease-out', style({ height: '*', opacity: 1, transform: 'translateY(0)' }))
+      ]),
+      transition(':leave', [
+        animate('225ms ease-in', style({ height: 0, opacity: 0, transform: 'translateY(-10px)' }))
+      ])
+    ])
+  ]
 })
 export class HomeComponent {
   // items: Inventory[] = [
@@ -236,6 +253,8 @@ export class HomeComponent {
   roomsSnapshot: Room[] = [];
   labelsSnapshot: Labels[] = [];
   value: string = ''
+  isMobile = window.innerWidth <= 400;
+  expandedItemId: string | null = null;
 
   locationFn: (id: string) => { roomName: string; furnitureName: string; spaceName: string } | null;
   labelFn: (id: string) => { labelName: string; id: string } | null;
@@ -248,6 +267,11 @@ export class HomeComponent {
   ) {
     this.locationFn = this.searchService.getStorageLocation.bind(this.searchService);
     this.labelFn = this.searchService.getLabelName.bind(this.searchService);
+  }
+
+  @HostListener('window:resize')
+  onResize() {
+    this.isMobile = window.innerWidth <= 400;
   }
 
   openAddItem() {
@@ -269,5 +293,9 @@ export class HomeComponent {
       maxWidth: isSmallScreen ? '100vw' : '600px',
       panelClass: isSmallScreen ? 'full-screen-dialog' : ''
     });
+  }
+
+  toggleItemInfo(itemId: string) {
+    this.expandedItemId = this.expandedItemId === itemId ? null : itemId;
   }
 }

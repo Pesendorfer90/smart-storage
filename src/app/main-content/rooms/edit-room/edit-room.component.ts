@@ -26,7 +26,6 @@ import { CloudService } from '../../../service/cloud.service';
     MatInputModule,
     FormsModule,
     ReactiveFormsModule,
-    // MatBadgeModule,
     MatExpansionModule,
     MatTooltipModule,
     MatIconModule,
